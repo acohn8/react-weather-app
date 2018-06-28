@@ -6,7 +6,7 @@ export default class Nav extends Component {
     return (
       <Segment inverted color="blue">
         <Menu inverted secondary color="blue">
-          <Menu.Item name="Weather" />
+          <Menu.Item as="h2" name="Weather" />
         </Menu>
       </Segment>
     );

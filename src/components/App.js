@@ -43,14 +43,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="ui container">
         <Nav />
-        <div className="ui raised  text container segment">
-          <div className="ui two column centered grid">
-            <div className="column">
-              <Search setCity={this.setCity} />
-              {this.state.city ? <WeatherCard weather={this.state.weather} /> : ''}
-            </div>
+        <div className="ui four column centered grid">
+          <div className="column">
+            <Search setCity={this.setCity} />
+            {this.state.city ? <WeatherCard weather={this.state.weather} /> : ''}
           </div>
         </div>
       </div>
