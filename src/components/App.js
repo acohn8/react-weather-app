@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import WeatherCard from './WeatherCard';
+import ErrorMessage from './Error';
 
 class App extends React.Component {
   constructor() {
@@ -9,6 +10,7 @@ class App extends React.Component {
     this.state = {
       city: '',
       weather: [{ tempreture: '', high: '', low: '', conditions: '', nameToDisplay: '' }],
+      status: '',
     };
   }
 
@@ -19,7 +21,8 @@ class App extends React.Component {
       }&APPID=0334dfcacf233909f4631c759218a821`,
     )
       .then(res => res.json())
-      .then(weather => this.setWeather(weather));
+      .then(weather => this.setWeather(weather))
+      .catch(err => this.setState({ status: 404 }));
   };
 
   setWeather = weather => {
@@ -30,7 +33,7 @@ class App extends React.Component {
       conditions: weather.weather[0].main,
       nameToDisplay: weather.name,
     };
-    this.setState({ weather: [weatherToSet] });
+    this.setState({ weather: [weatherToSet], status: 200 });
   };
 
   setCity = cityName => {
@@ -45,10 +48,11 @@ class App extends React.Component {
     return (
       <div className="ui container">
         <Nav />
-        <div className="ui four column centered grid">
-          <div className="column">
+        <div class="ui three column grid container center aligned">
+          <div class="column ui container">
             <Search setCity={this.setCity} />
-            {this.state.city ? <WeatherCard weather={this.state.weather} /> : ''}
+            {this.state.status === 200 ? <WeatherCard weather={this.state.weather} /> : ''}
+            {this.state.status === 404 ? <ErrorMessage /> : ''}
           </div>
         </div>
       </div>
