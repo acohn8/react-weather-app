@@ -1,28 +1,39 @@
 import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
-import WeatherCard from './WeatherCard';
-import ErrorMessage from './Error';
+import CityWeather from './CityWeather';
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       city: '',
-      weather: [{ tempreture: '', high: '', low: '', conditions: '', nameToDisplay: '' }],
+      weather: { tempreture: '', high: '', low: '', conditions: '', nameToDisplay: '' },
       status: '',
+      forecastTemps: [],
+      forecastDates: [],
     };
   }
 
+  formatCity = () => {
+    return this.state.city.split(' ').join('%20');
+  };
+
   getCityWeather = () => {
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${
-        this.state.city
-      }&APPID=0334dfcacf233909f4631c759218a821`,
+    return fetch(
+      `http://api.openweathermap.org/data/2.5/weather?q=${this.formatCity()}&APPID=0334dfcacf233909f4631c759218a821`,
     )
       .then(res => res.json())
       .then(weather => this.setWeather(weather))
       .catch(err => this.setState({ status: 404 }));
+  };
+
+  getCityForecast = () => {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/forecast/?q=${this.formatCity()}&APPID=0334dfcacf233909f4631c759218a821`,
+    )
+      .then(res => res.json())
+      .then(forecast => this.setForecast(forecast));
   };
 
   setWeather = weather => {
@@ -32,12 +43,22 @@ class App extends React.Component {
       low: this.weatherToF(weather.main.temp_min),
       conditions: weather.weather[0].main,
       nameToDisplay: weather.name,
+      imageId: weather.weather[0].icon,
     };
-    this.setState({ weather: [weatherToSet], status: 200 });
+    this.setState({ weather: weatherToSet, status: 200 });
+  };
+
+  setForecast = forecast => {
+    const forecastTempsToSet = forecast.list.map(day => this.weatherToF(day.main.temp_max));
+    const forecastDatesToSet = forecast.list.map(day => this.weatherToF(day.dt));
+    this.setState(
+      { forecastTemps: forecastTempsToSet },
+      this.setState({ forecastDates: forecastDatesToSet }),
+    );
   };
 
   setCity = cityName => {
-    this.setState({ city: cityName }, this.getCityWeather);
+    this.setState({ city: cityName, forecastTemps: [], forecastDates: [] }, this.getCityWeather);
   };
 
   weatherToF = temp => {
@@ -48,11 +69,16 @@ class App extends React.Component {
     return (
       <div className="ui container">
         <Nav />
-        <div class="ui three column grid container center aligned">
-          <div class="column ui container">
+        <div className="ui two column grid container ">
+          <div className="column ui container">
             <Search setCity={this.setCity} />
-            {this.state.status === 200 ? <WeatherCard weather={this.state.weather} /> : ''}
-            {this.state.status === 404 ? <ErrorMessage /> : ''}
+            <CityWeather
+              weather={this.state.weather}
+              status={this.state.status}
+              forecast={this.getCityForecast}
+              forecastDates={this.state.forecastDates}
+              forecastTemps={this.state.forecastTemps}
+            />
           </div>
         </div>
       </div>
