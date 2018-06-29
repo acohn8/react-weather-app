@@ -2,10 +2,9 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Divider } from 'semantic-ui-react';
 
-const BarChart = (props) => {
-  console.log(props.data);
+const BarChart = ({ forecast }) => {
   const chartData = {
-    labels: props.data.forecastDates.map(date => new Date(date * 1000)),
+    labels: forecast.forecastDates.map(date => new Date(date * 1000)),
     datasets: [
       {
         type: 'line',
@@ -13,7 +12,7 @@ const BarChart = (props) => {
         label: 'High',
         backgroundColor: '#F04A58',
         borderColor: '#F04A58',
-        data: props.data.forecastHigh.map(temp => Math.round(temp)),
+        data: forecast.forecastHigh.map(temp => Math.round(temp)),
       },
       {
         type: 'bar',
@@ -21,7 +20,7 @@ const BarChart = (props) => {
         label: 'Humidity',
         backgroundColor: '#0396A6',
         borderColor: '#0396A6',
-        data: props.data.forecastHumidity,
+        data: forecast.forecastHumidity,
       },
     ],
   };
@@ -44,7 +43,7 @@ const BarChart = (props) => {
   return (
     <div>
       <Divider />
-      <h4>Upcoming Tempreture and Humidity</h4>
+      <h4>Upcoming Temperature and Humidity</h4>
       <Bar data={chartData} options={chartOptions} />
     </div>
   );

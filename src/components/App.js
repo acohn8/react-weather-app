@@ -1,7 +1,8 @@
 import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
-import CityWeather from './CityWeather';
+import WeatherInfo from './WeatherInfo';
+import Bar from './Forecast';
 import { Grid } from 'semantic-ui-react';
 
 class App extends React.Component {
@@ -25,7 +26,8 @@ class App extends React.Component {
     )
       .then(res => res.json())
       .then(weather => this.setWeather(weather))
-      .catch(err => this.setState({ status: 404 }));
+      .catch(err => this.setState({ status: 404 }))
+      .then(this.getCityForecast);
   };
 
   getCityForecast = () => {
@@ -49,7 +51,6 @@ class App extends React.Component {
   };
 
   setForecast = forecast => {
-    console.log(forecast);
     const forecastDatesToSet = forecast.list.map(day => day.dt);
     const forecastHighToSet = forecast.list.map(day => this.weatherToF(day.main.temp_max));
     const forecastHumidityToSet = forecast.list.map(day => day.main.humidity);
@@ -80,12 +81,13 @@ class App extends React.Component {
           </Grid.Column>
           <Grid.Row centered columns={2}>
             <Grid.Column>
-              <CityWeather
-                weather={this.state.weather}
-                status={this.state.status}
-                forecast={this.getCityForecast}
-                forecastData={this.state.forecast}
-              />
+              <h1>{this.state.weather.nameToDisplay}</h1>
+              <WeatherInfo weather={this.state.weather} />
+              {this.state.forecast.forecastDates.length > 0 ? (
+                <Bar forecast={this.state.forecast} />
+              ) : (
+                ''
+              )}
             </Grid.Column>
           </Grid.Row>
         </Grid>
