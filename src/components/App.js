@@ -3,7 +3,8 @@ import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
 import Bar from './Forecast';
-import { Grid } from 'semantic-ui-react';
+import Error from './Error';
+import { Grid, Header } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,8 +12,8 @@ class App extends React.Component {
     this.state = {
       city: '',
       weather: { tempreture: '', high: '', low: '', conditions: '', nameToDisplay: '' },
-      status: '',
       forecast: { forecastDates: [], forecastHigh: [], forecastHumidity: [] },
+      status: '',
     };
   }
 
@@ -21,12 +22,12 @@ class App extends React.Component {
   };
 
   getCityWeather = () => {
-    return fetch(
+    fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${this.formatCity()}&APPID=0334dfcacf233909f4631c759218a821`,
     )
       .then(res => res.json())
-      .then(weather => this.setWeather(weather))
       .catch(err => this.setState({ status: 404 }))
+      .then(weather => this.setWeather(weather))
       .then(this.getCityForecast);
   };
 
@@ -71,23 +72,34 @@ class App extends React.Component {
     return temp * (9 / 5) - 459.67;
   };
 
+  controlRender = () => {
+    if (this.state.status === 200) {
+      return (
+        <Grid.Column>
+          <WeatherInfo weather={this.state.weather} status={this.state.status} />
+          <Bar forecast={this.state.forecast} />
+        </Grid.Column>
+      );
+    } else if (this.state.status === 404) {
+      return (
+        <Grid.Column>
+          <Error />;
+        </Grid.Column>
+      );
+    }
+  };
+
   render() {
+    const toRender = this.controlRender();
     return (
       <div>
-        <Nav />
+        <Nav city={this.state.weather.nameToDisplay} />
         <Grid centered columns={4}>
           <Grid.Column>
             <Search setCity={this.setCity} />
           </Grid.Column>
           <Grid.Row centered columns={2}>
-            <Grid.Column>
-              <WeatherInfo weather={this.state.weather} />
-              {this.state.forecast.forecastDates.length > 0 ? (
-                <Bar forecast={this.state.forecast} />
-              ) : (
-                ''
-              )}
-            </Grid.Column>
+            {toRender}
           </Grid.Row>
         </Grid>
       </div>
