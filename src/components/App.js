@@ -81,7 +81,6 @@ class App extends React.Component {
           </Grid.Column>
           <Grid.Row centered columns={2}>
             <Grid.Column>
-              <h1>{this.state.weather.nameToDisplay}</h1>
               <WeatherInfo weather={this.state.weather} />
               {this.state.forecast.forecastDates.length > 0 ? (
                 <Bar forecast={this.state.forecast} />
