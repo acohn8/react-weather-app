@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Image } from 'semantic-ui-react';
 import Error from './Error';
-import LineChart from './Forecast';
+import BarChart from './Forecast';
 import { Divider } from 'semantic-ui-react';
 
 const CityWeather = (props) => {
@@ -33,11 +33,7 @@ const CityWeather = (props) => {
           Forecast
         </Card.Content>
       </Card>
-      {props.forecastDates.length > 0 ? (
-        <LineChart dates={props.forecastDates} temps={props.forecastTemps} />
-      ) : (
-        ''
-      )}
+      {props.forecastData.forecastDates.length > 0 ? <BarChart data={props.forecastData} /> : ''}
     </div>
   );
 };

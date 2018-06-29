@@ -11,8 +11,7 @@ class App extends React.Component {
       city: '',
       weather: { tempreture: '', high: '', low: '', conditions: '', nameToDisplay: '' },
       status: '',
-      forecastTemps: [],
-      forecastDates: [],
+      forecast: { forecastDates: [], forecastHigh: [], forecastHumidity: [] },
     };
   }
 
@@ -50,12 +49,17 @@ class App extends React.Component {
   };
 
   setForecast = forecast => {
-    const forecastTempsToSet = forecast.list.map(day => this.weatherToF(day.main.temp_max));
+    console.log(forecast);
     const forecastDatesToSet = forecast.list.map(day => day.dt);
-    this.setState(
-      { forecastTemps: forecastTempsToSet },
-      this.setState({ forecastDates: forecastDatesToSet }),
-    );
+    const forecastHighToSet = forecast.list.map(day => this.weatherToF(day.main.temp_max));
+    const forecastHumidityToSet = forecast.list.map(day => day.main.humidity);
+    this.setState({
+      forecast: {
+        forecastDates: forecastDatesToSet,
+        forecastHigh: forecastHighToSet,
+        forecastHumidity: forecastHumidityToSet,
+      },
+    });
   };
 
   setCity = cityName => {
@@ -80,8 +84,7 @@ class App extends React.Component {
                 weather={this.state.weather}
                 status={this.state.status}
                 forecast={this.getCityForecast}
-                forecastDates={this.state.forecastDates}
-                forecastTemps={this.state.forecastTemps}
+                forecastData={this.state.forecast}
               />
             </Grid.Column>
           </Grid.Row>
