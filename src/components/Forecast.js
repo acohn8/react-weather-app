@@ -1,11 +1,13 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import DividingLine from './Divider';
 
 const LineChart = (props) => {
   const chartData = {
-    labels: props.dates.map(date => new Date(date)),
+    labels: props.dates.map(date => new Date(date * 1000)),
     datasets: [
       {
+        fill: false,
         label: 'Tempreture',
         backgroundColor: '#9BBECC',
         borderColor: '#9BBECC',
@@ -31,6 +33,7 @@ const LineChart = (props) => {
 
   return (
     <div>
+      <DividingLine />
       <h4>Hourly Forecast</h4>
       <Line data={chartData} options={chartOptions} />
     </div>

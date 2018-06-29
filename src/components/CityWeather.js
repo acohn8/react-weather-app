@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Image } from 'semantic-ui-react';
 import Error from './Error';
 import LineChart from './Forecast';
+import DividingLine from './Divider';
 
 const CityWeather = (props) => {
   const weather = props.weather;
@@ -12,6 +13,7 @@ const CityWeather = (props) => {
   }
   return (
     <div>
+      <DividingLine />
       <Card fluid>
         <Card.Content>
           <Image

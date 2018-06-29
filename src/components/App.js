@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import CityWeather from './CityWeather';
+import { Grid } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class App extends React.Component {
 
   setForecast = forecast => {
     const forecastTempsToSet = forecast.list.map(day => this.weatherToF(day.main.temp_max));
-    const forecastDatesToSet = forecast.list.map(day => this.weatherToF(day.dt));
+    const forecastDatesToSet = forecast.list.map(day => day.dt);
     this.setState(
       { forecastTemps: forecastTempsToSet },
       this.setState({ forecastDates: forecastDatesToSet }),
@@ -67,20 +68,24 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="ui container">
+      <div>
         <Nav />
-        <div className="ui two column grid container ">
-          <div className="column ui container">
+        <Grid centered columns={4}>
+          <Grid.Column>
             <Search setCity={this.setCity} />
-            <CityWeather
-              weather={this.state.weather}
-              status={this.state.status}
-              forecast={this.getCityForecast}
-              forecastDates={this.state.forecastDates}
-              forecastTemps={this.state.forecastTemps}
-            />
-          </div>
-        </div>
+          </Grid.Column>
+          <Grid.Row centered columns={2}>
+            <Grid.Column>
+              <CityWeather
+                weather={this.state.weather}
+                status={this.state.status}
+                forecast={this.getCityForecast}
+                forecastDates={this.state.forecastDates}
+                forecastTemps={this.state.forecastTemps}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }
