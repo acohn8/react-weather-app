@@ -1,6 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import DividingLine from './Divider';
+import { Divider } from 'semantic-ui-react';
 
 const LineChart = (props) => {
   const chartData = {
@@ -33,7 +33,7 @@ const LineChart = (props) => {
 
   return (
     <div>
-      <DividingLine />
+      <Divider />
       <h4>Hourly Forecast</h4>
       <Line data={chartData} options={chartOptions} />
     </div>
