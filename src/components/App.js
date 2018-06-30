@@ -3,6 +3,36 @@ import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
 import { Grid, Header } from 'semantic-ui-react';
+import Bar from './Forecast';
+import ForecastForm from './Dropdown';
+
+const baseState = {
+  location: { name: '', coords: [] },
+  weather: {
+    temperature: '',
+    high: '',
+    low: '',
+    conditions: '',
+    imageId: '',
+  },
+  forecast: {
+    hourly: {
+      time: [],
+      temperature: [],
+      humidity: [],
+      percipChance: [],
+    },
+    daily: {
+      time: [],
+      high: [],
+      low: [],
+      humidity: [],
+      percipChance: [],
+    },
+    minutely: { time: [], percipChance: [], percipIntensity: [] },
+  },
+  filter: '',
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -32,6 +62,7 @@ class App extends React.Component {
         },
         minutely: { time: [], percipChance: [], percipIntensity: [] },
       },
+      filter: '',
     };
   }
 
@@ -44,6 +75,7 @@ class App extends React.Component {
         this.setState(
           {
             location: { name: geoData.features[0].place_name, coords: geoData.features[0].center },
+            filter: '',
           },
           this.getWeather,
         ),
@@ -86,17 +118,54 @@ class App extends React.Component {
       percipChance: weather.minutely.data.map(minute => minute.precipProbability),
       percipIntensity: weather.minutely.data.map(minute => minute.percipIntensity),
     };
-    this.setState({
-      weather: currentWeather,
-      forecast: {
-        hourly: hourlyWeather,
-        daily: dailyWeather,
-        minutely: minutelyWeather,
+    this.setState(
+      {
+        weather: currentWeather,
+        forecast: {
+          hourly: hourlyWeather,
+          daily: dailyWeather,
+          minutely: minutelyWeather,
+        },
       },
-    });
+      this.filterForecast,
+    );
+  };
+
+  filterForecast = (timespan = 'hourly') => {
+    const newFilter = this.state.forecast[timespan];
+    if (timespan === 'daily') {
+      this.setState({
+        filter: {
+          time: newFilter.time,
+          temperature: newFilter.high,
+          percipChance: newFilter.percipChance,
+        },
+      });
+    } else {
+      this.setState({ filter: newFilter });
+    }
+  };
+
+  controlRender = () => {
+    if (this.state.filter === '') {
+      return '';
+    } else {
+      return (
+        <div>
+          <Header as="h1">{this.state.location.name}</Header>
+          <WeatherInfo
+            location={this.state.location}
+            weather={this.state.weather}
+            forecast={this.state.forecast}
+          />
+          <Bar forecast={this.state.filter} />
+        </div>
+      );
+    }
   };
 
   render() {
+    const toRender = this.controlRender();
     return (
       <div>
         <Nav />
@@ -105,12 +174,7 @@ class App extends React.Component {
             <Search getLocation={this.searchforLocation} />
           </Grid.Column>
           <Grid.Row centered columns={2}>
-            <Header size="huge">{this.state.location.name}</Header>
-            <WeatherInfo
-              location={this.state.location}
-              weather={this.state.weather}
-              forecast={this.state.forecast}
-            />
+            <Grid.Column>{toRender}</Grid.Column>
           </Grid.Row>
         </Grid>
       </div>
