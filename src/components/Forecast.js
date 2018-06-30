@@ -4,24 +4,24 @@ import { Divider } from 'semantic-ui-react';
 
 const BarChart = ({ forecast }) => {
   const chartData = {
-    labels: forecast.forecastDates.map(date => new Date(date * 1000)),
+    labels: forecast.time.map(date => new Date(date * 1000)),
     datasets: [
       {
         type: 'line',
         fill: false,
-        label: 'High',
+        label: 'Temperature',
         backgroundColor: '#F2711B',
         borderColor: '#F2711B',
-        data: forecast.forecastHigh.map(temp => Math.round(temp)),
+        data: forecast.data.map(data => Math.round(data)),
       },
-      {
-        type: 'bar',
-        fill: false,
-        label: 'Humidity',
-        backgroundColor: '#2085D0',
-        borderColor: '#2085D0',
-        data: forecast.forecastHumidity,
-      },
+      // {
+      //   type: 'bar',
+      //   fill: false,
+      //   label: 'Humidity',
+      //   backgroundColor: '#2085D0',
+      //   borderColor: '#2085D0',
+      //   data: forecast.hourly.humidity.map(hour => hour * 100),
+      // },
     ],
   };
 

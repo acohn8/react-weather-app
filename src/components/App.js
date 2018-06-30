@@ -2,72 +2,98 @@ import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      city: '',
-      weather: { temperature: '', high: '', low: '', conditions: '', nameToDisplay: '' },
-      forecast: { forecastDates: [], forecastHigh: [], forecastHumidity: [] },
+      location: { name: '', coords: [] },
+      weather: {
+        temperature: '',
+        high: '',
+        low: '',
+        conditions: '',
+        imageId: '',
+      },
+      forecast: {
+        hourly: {
+          time: [],
+          temperature: [],
+          humidity: [],
+          percipChance: [],
+        },
+        daily: {
+          time: [],
+          high: [],
+          low: [],
+          humidity: [],
+          percipChance: [],
+        },
+        minutely: { time: [], percipChance: [], percipIntensity: [] },
+      },
     };
   }
 
-  formatCity = () => {
-    return this.state.city.split(' ').join('%20');
-  };
-
-  getCityWeather = city => {
+  searchforLocation = city => {
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${this.formatCity(
-        city,
-      )}&APPID=0334dfcacf233909f4631c759218a821`,
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A`,
     )
       .then(res => res.json())
-      .then(weather => this.setWeather(weather))
-      .then(this.getCityForecast);
+      .then(geoData =>
+        this.setState(
+          {
+            location: { name: geoData.features[0].place_name, coords: geoData.features[0].center },
+          },
+          this.getWeather,
+        ),
+      );
   };
 
-  getCityForecast = () => {
+  getWeather = () => {
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast/?q=${this.formatCity()}&APPID=0334dfcacf233909f4631c759218a821`,
+      `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
+        this.state.location.coords[1]
+      },${this.state.location.coords[0]}`,
     )
       .then(res => res.json())
-      .then(forecast => this.setForecast(forecast));
+      .then(weather => this.setWeather(weather));
   };
 
   setWeather = weather => {
-    const weatherToSet = {
-      temperature: this.weatherToF(weather.main.temp),
-      high: this.weatherToF(weather.main.temp_max),
-      low: this.weatherToF(weather.main.temp_min),
-      conditions: weather.weather[0].main,
-      nameToDisplay: weather.name,
-      imageId: weather.weather[0].icon,
+    const currentWeather = {
+      temperature: weather.currently.apparentTemperature,
+      high: weather.daily.data[0].apparentTemperatureHigh,
+      low: weather.daily.data[0].apparentTemperatureLow,
+      conditions: weather.currently.summary,
+      imageId: weather.currently.icon,
     };
-    this.setState({ weather: weatherToSet });
-  };
-
-  setForecast = forecast => {
-    const forecastDatesToSet = forecast.list.map(day => day.dt);
-    const forecastHighToSet = forecast.list.map(day => this.weatherToF(day.main.temp_max));
-    const forecastHumidityToSet = forecast.list.map(day => day.main.humidity);
+    const hourlyWeather = {
+      time: weather.hourly.data.map(hour => hour.time),
+      temperature: weather.hourly.data.map(hour => hour.apparentTemperature),
+      humidity: weather.hourly.data.map(hour => hour.humidity),
+      percipChance: weather.hourly.data.map(hour => hour.precipProbability),
+    };
+    const dailyWeather = {
+      time: weather.daily.data.map(day => day.time),
+      high: weather.daily.data.map(day => day.apparentTemperatureHigh),
+      low: weather.daily.data.map(day => day.apparentTemperatureLow),
+      humidity: weather.daily.data.map(day => day.humidity),
+      percipChance: weather.daily.data.map(day => day.precipProbability),
+    };
+    const minutelyWeather = {
+      time: weather.minutely.data.map(minute => minute.time),
+      percipChance: weather.minutely.data.map(minute => minute.precipProbability),
+      percipIntensity: weather.minutely.data.map(minute => minute.percipIntensity),
+    };
     this.setState({
+      weather: currentWeather,
       forecast: {
-        forecastDates: forecastDatesToSet,
-        forecastHigh: forecastHighToSet,
-        forecastHumidity: forecastHumidityToSet,
+        hourly: hourlyWeather,
+        daily: dailyWeather,
+        minutely: minutelyWeather,
       },
     });
-  };
-
-  setCity = cityName => {
-    this.setState({ city: cityName }, this.getCityWeather);
-  };
-
-  weatherToF = temp => {
-    return temp * (9 / 5) - 459.67;
   };
 
   render() {
@@ -76,14 +102,15 @@ class App extends React.Component {
         <Nav />
         <Grid centered columns={4}>
           <Grid.Column>
-            <Search setCity={this.setCity} />
+            <Search getLocation={this.searchforLocation} />
           </Grid.Column>
           <Grid.Row centered columns={2}>
-            {this.state.city === '' ? (
-              ''
-            ) : (
-              <WeatherInfo weather={this.state.weather} forecast={this.state.forecast} />
-            )}
+            <Header size="huge">{this.state.location.name}</Header>
+            <WeatherInfo
+              location={this.state.location}
+              weather={this.state.weather}
+              forecast={this.state.forecast}
+            />
           </Grid.Row>
         </Grid>
       </div>

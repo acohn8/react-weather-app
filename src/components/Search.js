@@ -13,7 +13,7 @@ class Search extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.setCity(this.state.searchValue);
+    this.props.getLocation(this.state.searchValue);
     this.setState({ searchValue: '' });
   };
 

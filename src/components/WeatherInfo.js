@@ -1,19 +1,34 @@
 import React from 'react';
 import Error from './Error';
 import Bar from './Forecast';
+import ForecastForm from './Dropdown';
 import { Statistic, Grid } from 'semantic-ui-react';
 
 class WeatherInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: false,
+      filter: { time: '', data: '' },
     };
   }
 
-  componentDidCatch() {
-    this.setState({ error: true });
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   if (this.props.location !== nextProps.location) {
+  //     this.setState({ filter: { time: '', data: '' } });
+  //   }
+  // }
+
+  filterForecast = (timespan, data) => {
+    if (timespan !== '') {
+      this.setState({
+        filter: {
+          time: this.props.forecast[timespan].time,
+          data: this.props.forecast[timespan][data],
+        },
+      });
+    }
+  };
+
   render() {
     const weather = this.props.weather;
     if (this.state.error) {
@@ -39,7 +54,8 @@ class WeatherInfo extends React.Component {
             <Statistic.Label>Low</Statistic.Label>
           </Statistic>
         </Statistic.Group>
-        <Bar forecast={this.props.forecast} />
+        <ForecastForm options={this.props.forecast} filter={this.filterForecast} />
+        {this.state.filter.data === '' ? '' : <Bar forecast={this.state.filter} />}
       </Grid.Column>
     );
   }
