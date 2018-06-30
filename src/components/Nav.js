@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Menu, Segment } from 'semantic-ui-react';
 
-const Nav = props => (
+const Nav = () => (
   <Segment inverted color="blue">
     <Menu inverted secondary color="blue">
-      <Menu.Item as="h1" name={props.city ? props.city : 'Search for a city'} />
+      <Menu.Item as="h1" name="Search for weather" />
     </Menu>
   </Segment>
 );

@@ -2,18 +2,15 @@ import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
-import Bar from './Forecast';
-import Error from './Error';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       city: '',
-      weather: { tempreture: '', high: '', low: '', conditions: '', nameToDisplay: '' },
+      weather: { temperature: '', high: '', low: '', conditions: '', nameToDisplay: '' },
       forecast: { forecastDates: [], forecastHigh: [], forecastHumidity: [] },
-      status: '',
     };
   }
 
@@ -21,12 +18,13 @@ class App extends React.Component {
     return this.state.city.split(' ').join('%20');
   };
 
-  getCityWeather = () => {
+  getCityWeather = city => {
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${this.formatCity()}&APPID=0334dfcacf233909f4631c759218a821`,
+      `http://api.openweathermap.org/data/2.5/weather?q=${this.formatCity(
+        city,
+      )}&APPID=0334dfcacf233909f4631c759218a821`,
     )
       .then(res => res.json())
-      .catch(err => this.setState({ status: 404 }))
       .then(weather => this.setWeather(weather))
       .then(this.getCityForecast);
   };
@@ -41,14 +39,14 @@ class App extends React.Component {
 
   setWeather = weather => {
     const weatherToSet = {
-      tempreture: this.weatherToF(weather.main.temp),
+      temperature: this.weatherToF(weather.main.temp),
       high: this.weatherToF(weather.main.temp_max),
       low: this.weatherToF(weather.main.temp_min),
       conditions: weather.weather[0].main,
       nameToDisplay: weather.name,
       imageId: weather.weather[0].icon,
     };
-    this.setState({ weather: weatherToSet, status: 200 });
+    this.setState({ weather: weatherToSet });
   };
 
   setForecast = forecast => {
@@ -65,41 +63,27 @@ class App extends React.Component {
   };
 
   setCity = cityName => {
-    this.setState({ city: cityName, forecastTemps: [], forecastDates: [] }, this.getCityWeather);
+    this.setState({ city: cityName }, this.getCityWeather);
   };
 
   weatherToF = temp => {
     return temp * (9 / 5) - 459.67;
   };
 
-  controlRender = () => {
-    if (this.state.status === 200) {
-      return (
-        <Grid.Column>
-          <WeatherInfo weather={this.state.weather} status={this.state.status} />
-          <Bar forecast={this.state.forecast} />
-        </Grid.Column>
-      );
-    } else if (this.state.status === 404) {
-      return (
-        <Grid.Column>
-          <Error />;
-        </Grid.Column>
-      );
-    }
-  };
-
   render() {
-    const toRender = this.controlRender();
     return (
       <div>
-        <Nav city={this.state.weather.nameToDisplay} />
+        <Nav />
         <Grid centered columns={4}>
           <Grid.Column>
             <Search setCity={this.setCity} />
           </Grid.Column>
           <Grid.Row centered columns={2}>
-            {toRender}
+            {this.state.city === '' ? (
+              ''
+            ) : (
+              <WeatherInfo weather={this.state.weather} forecast={this.state.forecast} />
+            )}
           </Grid.Row>
         </Grid>
       </div>
