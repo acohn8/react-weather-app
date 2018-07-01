@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Icon, Image, Statistic } from 'semantic-ui-react';
+import { Card, Statistic } from 'semantic-ui-react';
 
 import moment from 'moment';
 
@@ -15,9 +15,13 @@ const ForecastCard = (props) => {
             <Statistic.Value>{Math.round(props.data.high)}</Statistic.Value>
             <Statistic.Label>High</Statistic.Label>
           </Statistic>
-          <Statistic color="blue">
+          <Statistic color="olive">
             <Statistic.Value>{Math.round(props.data.low)}</Statistic.Value>
-            <Statistic.Label>low</Statistic.Label>
+            <Statistic.Label>Low</Statistic.Label>
+          </Statistic>
+          <Statistic color="blue">
+            <Statistic.Value>{`${Math.round(props.data.precipChance * 100)}%`}</Statistic.Value>
+            <Statistic.Label>Precipitation Chance</Statistic.Label>
           </Statistic>
           <Statistic color="teal">
             <Statistic.Value>{`${Math.round(props.data.humidity * 100)}%`}</Statistic.Value>

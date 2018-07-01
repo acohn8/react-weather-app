@@ -3,15 +3,23 @@ import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
 import Error from './Error';
-import { Grid, Card, Header } from 'semantic-ui-react';
+import { Grid, Container } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       location: { name: '', coords: [] },
-      load_failed: false,
+      error: false,
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.location !== prevState.location) {
+      this.setState({
+        error: false,
+      });
+    }
   }
 
   searchforLocation = city => {
@@ -30,13 +38,13 @@ class App extends React.Component {
           this.getWeather,
         ),
       )
-      .catch(error => {
-        this.setState({ load_failed: true });
+      .catch(err => {
+        this.setState({ error: true });
       });
   };
 
   controlRender = () => {
-    if (this.state.load_failed === true) {
+    if (this.state.error === true) {
       return <Error />;
     } else if (this.state.location.name === '') {
       return null;
@@ -53,8 +61,10 @@ class App extends React.Component {
           <Grid.Column>
             <Search getLocation={this.searchforLocation} />
           </Grid.Column>
-          <Grid.Row centered columns={2}>
-            <Grid.Column>{this.controlRender()}</Grid.Column>
+          <Grid.Row centered columns={1}>
+            <Container>
+              <Grid.Column>{this.controlRender()}</Grid.Column>
+            </Container>
           </Grid.Row>
         </Grid>
       </div>

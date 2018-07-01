@@ -6,6 +6,10 @@ const chartOptions = {
     display: false,
   },
   elements: { point: { radius: 0 } },
+  tooltips: {
+    mode: 'index',
+    intersect: false,
+  },
   scales: {
     xAxes: [
       {
@@ -18,6 +22,15 @@ const chartOptions = {
         },
       },
     ],
+    yAxes: [
+      {
+        ticks: {
+          min: 0,
+          max: 100,
+          stepSize: 20,
+        },
+      },
+    ],
   },
 };
 
@@ -26,24 +39,15 @@ const BarChart = ({ forecast }) => {
     labels: forecast.time.map(date => date * 1000),
     datasets: [
       {
-        type: 'line',
-        fill: false,
-        label: 'Temperature',
-        backgroundColor: '#F2711B',
-        borderColor: '#F2711B',
-        data: forecast.temperature.map(data => Math.round(data)),
-      },
-      {
         type: 'bar',
         fill: false,
-        label: 'Percipitation %',
+        label: 'Precipitation %',
         backgroundColor: '#2085D0',
         borderColor: '#2085D0',
-        data: forecast.percipChance.map(hour => hour * 100),
+        data: forecast.precipChance.map(hour => hour * 100),
       },
     ],
   };
-
   return <Bar data={chartData} options={chartOptions} />;
 };
 
