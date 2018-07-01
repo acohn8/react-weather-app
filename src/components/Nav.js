@@ -1,11 +1,13 @@
-import React from 'react';
-import { Menu, Segment } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { Icon, Menu } from 'semantic-ui-react';
 
 const Nav = () => (
-  <Segment inverted color="blue">
-    <Menu inverted secondary color="blue">
-      <Menu.Item as="h1" name="Search for weather" />
-    </Menu>
-  </Segment>
+  <Menu icon>
+    <Menu.Item name="sun">
+      <Icon name="sun" />
+    </Menu.Item>
+    <Menu.Item name="Find Your Weather" />
+  </Menu>
 );
+
 export default Nav;

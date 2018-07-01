@@ -2,37 +2,11 @@ import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Card } from 'semantic-ui-react';
 import Bar from './Forecast';
-import ForecastForm from './Dropdown';
-
-const baseState = {
-  location: { name: '', coords: [] },
-  weather: {
-    temperature: '',
-    high: '',
-    low: '',
-    conditions: '',
-    imageId: '',
-  },
-  forecast: {
-    hourly: {
-      time: [],
-      temperature: [],
-      humidity: [],
-      percipChance: [],
-    },
-    daily: {
-      time: [],
-      high: [],
-      low: [],
-      humidity: [],
-      percipChance: [],
-    },
-    minutely: { time: [], percipChance: [], percipIntensity: [] },
-  },
-  filter: '',
-};
+import CityHeader from './Header';
+import Error from './Error';
+import ForecastCard from './ForecastCard';
 
 class App extends React.Component {
   constructor(props) {
@@ -53,16 +27,19 @@ class App extends React.Component {
           humidity: [],
           percipChance: [],
         },
-        daily: {
-          time: [],
-          high: [],
-          low: [],
-          humidity: [],
-          percipChance: [],
-        },
+        daily: [
+          {
+            time: '',
+            high: '',
+            low: '',
+            humidity: '',
+            percipChance: '',
+          },
+        ],
         minutely: { time: [], percipChance: [], percipIntensity: [] },
       },
       filter: '',
+      error: false,
     };
   }
 
@@ -93,11 +70,14 @@ class App extends React.Component {
   };
 
   setWeather = weather => {
+    //refactor other times to be like daily?
+    console.log(weather);
+    const dailyWeather = [];
     const currentWeather = {
       temperature: weather.currently.apparentTemperature,
       high: weather.daily.data[0].apparentTemperatureHigh,
       low: weather.daily.data[0].apparentTemperatureLow,
-      conditions: weather.currently.summary,
+      conditions: weather.minutely.summary,
       imageId: weather.currently.icon,
     };
     const hourlyWeather = {
@@ -106,13 +86,19 @@ class App extends React.Component {
       humidity: weather.hourly.data.map(hour => hour.humidity),
       percipChance: weather.hourly.data.map(hour => hour.precipProbability),
     };
-    const dailyWeather = {
-      time: weather.daily.data.map(day => day.time),
-      high: weather.daily.data.map(day => day.apparentTemperatureHigh),
-      low: weather.daily.data.map(day => day.apparentTemperatureLow),
-      humidity: weather.daily.data.map(day => day.humidity),
-      percipChance: weather.daily.data.map(day => day.precipProbability),
-    };
+
+    weather.daily.data.forEach(day => {
+      dailyWeather.push({
+        time: day.time,
+        high: day.apparentTemperatureHigh,
+        low: day.apparentTemperatureLow,
+        humidity: day.humidity,
+        percipChance: day.precipProbability,
+        summary: day.summary,
+        imageId: day.icon,
+      });
+    });
+
     const minutelyWeather = {
       time: weather.minutely.data.map(minute => minute.time),
       percipChance: weather.minutely.data.map(minute => minute.precipProbability),
@@ -147,17 +133,27 @@ class App extends React.Component {
   };
 
   controlRender = () => {
+    if (this.state.error === true) {
+      return <Error />;
+    }
     if (this.state.filter === '') {
       return '';
     } else {
       return (
         <div>
-          <Header as="h1">{this.state.location.name}</Header>
+          <CityHeader
+            city={this.state.location.name}
+            conditions={this.state.weather.conditions}
+            image={this.state.weather.imageId}
+          />
           <WeatherInfo
             location={this.state.location}
             weather={this.state.weather}
             forecast={this.state.forecast}
           />
+          <Card.Group itemsPerRow={4}>
+            {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}
+          </Card.Group>
           <Bar forecast={this.state.filter} />
         </div>
       );

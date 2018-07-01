@@ -1,26 +1,32 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Divider } from 'semantic-ui-react';
 
 const chartOptions = {
   legend: {
     display: false,
   },
+  elements: { point: { radius: 0 } },
   scales: {
     xAxes: [
       {
-        ticks: {
-          display: false,
+        type: 'time',
+        time: {
+          unit: 'day',
+          displayFormats: {
+            day: 'dddd',
+          },
         },
       },
     ],
   },
+  ticks: {
+    autoSkip: true,
+  },
 };
 
 const BarChart = ({ forecast }) => {
-  console.log(forecast);
   const chartData = {
-    labels: forecast.time.map(date => new Date(date * 1000)),
+    labels: forecast.time.map(date => date * 1000),
     datasets: [
       {
         type: 'line',
@@ -43,7 +49,6 @@ const BarChart = ({ forecast }) => {
 
   return (
     <div>
-      <Divider />
       <h4>Upcoming Temperature and Percipitation Chance</h4>
       <Bar data={chartData} options={chartOptions} />
     </div>
