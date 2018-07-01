@@ -47,12 +47,7 @@ const BarChart = ({ forecast }) => {
     ],
   };
 
-  return (
-    <div>
-      <h4>Upcoming Temperature and Percipitation Chance</h4>
-      <Bar data={chartData} options={chartOptions} />
-    </div>
-  );
+  return <Bar data={chartData} options={chartOptions} />;
 };
 
 export default BarChart;

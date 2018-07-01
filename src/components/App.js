@@ -2,7 +2,7 @@ import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
-import { Grid, Card } from 'semantic-ui-react';
+import { Grid, Card, Header } from 'semantic-ui-react';
 import Bar from './Forecast';
 import CityHeader from './Header';
 import Error from './Error';
@@ -151,10 +151,15 @@ class App extends React.Component {
             weather={this.state.weather}
             forecast={this.state.forecast}
           />
+          <Header size="large">
+            Today and Tomorrow
+            <Header.Subheader>Temperature and chance of precipitation</Header.Subheader>
+          </Header>
+          <Bar forecast={this.state.filter} />
+          <Header size="large">This Week</Header>
           <Card.Group itemsPerRow={4}>
             {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}
           </Card.Group>
-          <Bar forecast={this.state.filter} />
         </div>
       );
     }
