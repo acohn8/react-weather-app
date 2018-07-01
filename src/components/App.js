@@ -67,7 +67,11 @@ class App extends React.Component {
             </Container>
           </Grid.Row>
           <Grid.Row centered columns={1}>
-            <small>Powered by Dark Sky</small>
+            <small>
+              Weather: Powered by Dark Sky<br />
+              Geocoding: <a href="https://www.mapbox.com/about/maps/">© Mapbox</a>,
+              <a href="https://www.openstreetmap.org/about/">© OpenStreetMap</a>
+            </small>
           </Grid.Row>
         </Grid>
       </div>
