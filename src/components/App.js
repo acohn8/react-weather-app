@@ -66,6 +66,9 @@ class App extends React.Component {
               <Grid.Column>{this.controlRender()}</Grid.Column>
             </Container>
           </Grid.Row>
+          <Grid.Row centered columns={1}>
+            <small>Powered by Dark Sky</small>
+          </Grid.Row>
         </Grid>
       </div>
     );
