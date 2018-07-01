@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Icon, Image, Statistic } from 'semantic-ui-react';
-import Skycons from 'skycons-component';
+
 import moment from 'moment';
 
 const ForecastCard = (props) => {

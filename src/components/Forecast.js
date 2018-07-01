@@ -19,9 +19,6 @@ const chartOptions = {
       },
     ],
   },
-  ticks: {
-    autoSkip: true,
-  },
 };
 
 const BarChart = ({ forecast }) => {
