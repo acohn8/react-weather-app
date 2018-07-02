@@ -40,7 +40,6 @@ class Search extends React.Component {
               inverted
               circular
               link
-              value={this.state.searchValue}
               onClick={this.handleClick}
             />
           }
