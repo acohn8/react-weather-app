@@ -128,11 +128,11 @@ class WeatherInfo extends React.Component {
           <Header size="large">Today and Tomorrow</Header>
           <Grid centered stackable columns={2}>
             <Grid.Column>
-              <Header size="small">Hourly precipitation chance</Header>
+              <Header size="small">Precipitation chance</Header>
               <PrecipBar forecast={this.state.forecast.hourly} />
             </Grid.Column>
             <Grid.Column>
-              <Header size="small">Hourly temperature and humidity</Header>
+              <Header size="small">Temperature and humidity</Header>
               <TempLine forecast={this.state.forecast.hourly} />
             </Grid.Column>
           </Grid>
