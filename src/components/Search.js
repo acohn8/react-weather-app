@@ -24,7 +24,6 @@ class Search extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     this.props.getLocation(this.state.searchValue);
-    this.setState({ searchValue: '' });
   };
 
   handleLoading = () => {
@@ -41,6 +40,7 @@ class Search extends React.Component {
               inverted
               circular
               link
+              value={this.state.searchValue}
               onClick={this.handleClick}
             />
           }
