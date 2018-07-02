@@ -2,9 +2,8 @@ import React from 'react';
 import { Divider, Header, Card, Grid } from 'semantic-ui-react';
 import CityHeader from './Header';
 import ForecastCard from './ForecastCard';
-import PrecipBar from './PrecipBar';
+import TodayAndTomorrow from './TodayAndTomorrow';
 import ForecastLoader from './Loader';
-import TempLine from './TempLine';
 import Error from './Error';
 import CurrentWeather from './CurrentWeather';
 
@@ -12,24 +11,9 @@ class WeatherInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      weather: {
-        temperature: '',
-        high: '',
-        low: '',
-        conditions: '',
-        humidity: '',
-        imageId: '',
-      },
+      weather: {},
       alerts: [],
-      forecast: {
-        hourly: {
-          time: [],
-          temperature: [],
-          humidity: [],
-          precipChance: [],
-        },
-        daily: [],
-      },
+      forecast: {},
       loaded: false,
       error: false,
     };
@@ -61,6 +45,7 @@ class WeatherInfo extends React.Component {
   setWeather = weather => {
     const dailyWeather = [];
     const currentAlerts = [];
+
     if (typeof weather.alerts !== 'undefined' && weather.alerts.length > 0) {
       weather.alerts.forEach(alert => {
         currentAlerts.push({
@@ -71,6 +56,7 @@ class WeatherInfo extends React.Component {
         });
       });
     }
+
     const currentWeather = {
       temperature: weather.currently.apparentTemperature,
       high: weather.daily.data[0].apparentTemperatureHigh,
@@ -78,12 +64,6 @@ class WeatherInfo extends React.Component {
       conditions: weather.minutely.summary,
       humidity: weather.currently.humidity,
       imageId: weather.currently.icon,
-    };
-    const hourlyWeather = {
-      time: weather.hourly.data.map(hour => hour.time),
-      temperature: weather.hourly.data.map(hour => hour.apparentTemperature),
-      humidity: weather.hourly.data.map(hour => hour.humidity),
-      precipChance: weather.hourly.data.map(hour => hour.precipProbability),
     };
 
     weather.daily.data.forEach(day => {
@@ -97,6 +77,13 @@ class WeatherInfo extends React.Component {
         imageId: day.icon,
       });
     });
+
+    const hourlyWeather = {
+      time: weather.hourly.data.map(hour => hour.time),
+      temperature: weather.hourly.data.map(hour => hour.apparentTemperature),
+      humidity: weather.hourly.data.map(hour => hour.humidity),
+      precipChance: weather.hourly.data.map(hour => hour.precipProbability),
+    };
 
     this.setState({
       weather: currentWeather,
@@ -125,17 +112,7 @@ class WeatherInfo extends React.Component {
           />
           <CurrentWeather weather={this.state.weather} />
           <Divider section />
-          <Header size="large">Today and Tomorrow</Header>
-          <Grid centered stackable columns={2}>
-            <Grid.Column>
-              <Header size="small">Precipitation chance</Header>
-              <PrecipBar forecast={this.state.forecast.hourly} />
-            </Grid.Column>
-            <Grid.Column>
-              <Header size="small">Temperature and humidity</Header>
-              <TempLine forecast={this.state.forecast.hourly} />
-            </Grid.Column>
-          </Grid>
+          <TodayAndTomorrow forecast={this.state.forecast.hourly} />
           <Divider section />
           <Header size="large">This Week</Header>
           <Card.Group stackable itemsPerRow={4}>
