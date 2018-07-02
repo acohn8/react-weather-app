@@ -47,7 +47,7 @@ class WeatherInfo extends React.Component {
 
   getWeather = () => {
     fetch(
-      `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
+      `https://cryptic-headland-94862.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
         this.props.location.coords[1]
       },${this.props.location.coords[0]}`,
     )
