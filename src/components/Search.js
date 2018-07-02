@@ -22,7 +22,7 @@ class Search extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>
           <label>Search For A Location</label>
-          <Input fluid icon="search" onChange={this.handleChange} value={this.state.searchValue} />
+          <Input icon="search" onChange={this.handleChange} value={this.state.searchValue} />
         </Form.Field>
       </Form>
     );
