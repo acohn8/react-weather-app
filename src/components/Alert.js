@@ -17,6 +17,7 @@ const Alert = props => (
         content={alert.description}
         position="bottom center"
         wide="very"
+        hideOnScroll
       />
     ))}
   </div>

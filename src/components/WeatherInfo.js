@@ -2,9 +2,9 @@ import React from 'react';
 import { Divider, Header, Card, Grid } from 'semantic-ui-react';
 import CityHeader from './Header';
 import ForecastCard from './ForecastCard';
-import Bar from './Forecast';
+import PrecipBar from './PrecipBar';
 import ForecastLoader from './Loader';
-import TempLineChart from './TempLine';
+import TempLine from './TempLine';
 import Error from './Error';
 import CurrentWeather from './CurrentWeather';
 
@@ -59,7 +59,6 @@ class WeatherInfo extends React.Component {
   };
 
   setWeather = weather => {
-    console.log(this.weather);
     const dailyWeather = [];
     const currentAlerts = [];
     if (typeof weather.alerts !== 'undefined' && weather.alerts.length > 0) {
@@ -125,18 +124,19 @@ class WeatherInfo extends React.Component {
             alerts={this.state.alerts}
           />
           <CurrentWeather weather={this.state.weather} />
-          <Divider />
+          <Divider section />
           <Header size="large">Today and Tomorrow</Header>
           <Grid centered stackable columns={2}>
             <Grid.Column>
               <Header size="small">Hourly precipitation chance</Header>
-              <Bar forecast={this.state.forecast.hourly} />
+              <PrecipBar forecast={this.state.forecast.hourly} />
             </Grid.Column>
             <Grid.Column>
               <Header size="small">Hourly temperature and humidity</Header>
-              <TempLineChart forecast={this.state.forecast.hourly} />
+              <TempLine forecast={this.state.forecast.hourly} />
             </Grid.Column>
           </Grid>
+          <Divider section />
           <Header size="large">This Week</Header>
           <Card.Group stackable itemsPerRow={4}>
             {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}

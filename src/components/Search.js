@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'semantic-ui-react';
+import { Form, Input } from 'semantic-ui-react';
 
 class Search extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Search extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>
           <label>Search For A Location</label>
-          <input fluid onChange={this.handleChange} value={this.state.searchValue} />
+          <Input fluid icon="search" onChange={this.handleChange} value={this.state.searchValue} />
         </Form.Field>
       </Form>
     );

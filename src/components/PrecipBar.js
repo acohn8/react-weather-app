@@ -34,7 +34,7 @@ const chartOptions = {
   },
 };
 
-const BarChart = ({ forecast }) => {
+const PrecipBar = ({ forecast }) => {
   const chartData = {
     labels: forecast.time.map(date => date * 1000),
     datasets: [
@@ -51,4 +51,4 @@ const BarChart = ({ forecast }) => {
   return <Bar data={chartData} options={chartOptions} />;
 };
 
-export default BarChart;
+export default PrecipBar;

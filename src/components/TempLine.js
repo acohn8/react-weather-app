@@ -25,7 +25,7 @@ const chartOptions = {
   },
 };
 
-const TempLineChart = ({ forecast }) => {
+const TempLine = ({ forecast }) => {
   const chartData = {
     labels: forecast.time.map(date => date * 1000),
     datasets: [
@@ -49,4 +49,4 @@ const TempLineChart = ({ forecast }) => {
   return <Line data={chartData} options={chartOptions} />;
 };
 
-export default TempLineChart;
+export default TempLine;

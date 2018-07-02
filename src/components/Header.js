@@ -4,7 +4,7 @@ import Skycons from 'skycons-component';
 import Alert from './Alert';
 
 const CityHeader = props => (
-  <Grid>
+  <Grid padded verticalAlign="middle">
     <Grid.Row>
       <Grid.Column width={3}>
         <Skycons animate iconColor="grey" style={{ width: 64, height: 64 }} icon={props.image} />

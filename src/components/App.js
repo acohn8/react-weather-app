@@ -45,7 +45,11 @@ class App extends React.Component {
 
   controlRender = () => {
     if (this.state.error === true) {
-      return <Error />;
+      return (
+        <Grid stackable centered columns={2}>
+          <Error />
+        </Grid>
+      );
     } else if (this.state.location.name === '') {
       return null;
     } else {
