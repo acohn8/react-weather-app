@@ -57,15 +57,6 @@ class WeatherInfo extends React.Component {
       });
     }
 
-    const currentWeather = {
-      temperature: weather.currently.apparentTemperature,
-      high: weather.daily.data[0].apparentTemperatureHigh,
-      low: weather.daily.data[0].apparentTemperatureLow,
-      conditions: weather.minutely.summary,
-      humidity: weather.currently.humidity,
-      imageId: weather.currently.icon,
-    };
-
     weather.daily.data.forEach(day => {
       dailyWeather.push({
         time: day.time,
@@ -77,6 +68,15 @@ class WeatherInfo extends React.Component {
         imageId: day.icon,
       });
     });
+
+    const currentWeather = {
+      temperature: weather.currently.apparentTemperature,
+      high: weather.daily.data[0].apparentTemperatureHigh,
+      low: weather.daily.data[0].apparentTemperatureLow,
+      conditions: weather.minutely.summary,
+      humidity: weather.currently.humidity,
+      imageId: weather.currently.icon,
+    };
 
     const hourlyWeather = {
       time: weather.hourly.data.map(hour => hour.time),
