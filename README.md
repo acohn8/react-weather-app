@@ -1,2 +1,1 @@
-A simple weather app to practice React. Weather data from Dark Sky and geocoding from Mapbox.
-
+A simple weather app built with React. Weather data from the Dark Sky API.
