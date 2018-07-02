@@ -127,7 +127,7 @@ class WeatherInfo extends React.Component {
           <CurrentWeather weather={this.state.weather} />
           <Divider />
           <Header size="large">Today and Tomorrow</Header>
-          <Grid centered columns={2}>
+          <Grid centered stackable columns={2}>
             <Grid.Column>
               <Header size="small">Hourly precipitation chance</Header>
               <Bar forecast={this.state.forecast.hourly} />
@@ -138,7 +138,7 @@ class WeatherInfo extends React.Component {
             </Grid.Column>
           </Grid>
           <Header size="large">This Week</Header>
-          <Card.Group itemsPerRow={4}>
+          <Card.Group stackable itemsPerRow={4}>
             {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}
           </Card.Group>
         </div>

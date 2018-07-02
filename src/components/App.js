@@ -57,7 +57,7 @@ class App extends React.Component {
     return (
       <div>
         <Nav />
-        <Grid centered columns={4}>
+        <Grid stackable centered columns={4}>
           <Grid.Column>
             <Search getLocation={this.searchforLocation} />
           </Grid.Column>
