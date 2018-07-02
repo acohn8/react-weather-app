@@ -3,9 +3,7 @@ import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
 import Error from './Error';
-import LocateButton from './LocateButton';
-
-import { Grid, Container, Divider } from 'semantic-ui-react';
+import { Grid, Container } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
@@ -71,9 +69,7 @@ class App extends React.Component {
         <Nav />
         <Grid stackable centered columns={4}>
           <Grid.Column>
-            <Search getLocation={this.searchforLocation} />
-            <Divider horizontal>Or</Divider>
-            <LocateButton locate={this.geoLocate} location={this.state.location} />
+            <Search getLocation={this.searchforLocation} locate={this.geoLocate} />
           </Grid.Column>
           <Grid.Row centered columns={1}>
             <Container>
