@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Header, Card, Grid } from 'semantic-ui-react';
+import { Divider, Header, Card } from 'semantic-ui-react';
 import CityHeader from './Header';
 import ForecastCard from './ForecastCard';
 import TodayAndTomorrow from './TodayAndTomorrow';
