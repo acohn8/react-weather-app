@@ -1,11 +1,12 @@
 import React from 'react';
-import { Statistic, Divider, Header, Card, Grid } from 'semantic-ui-react';
+import { Divider, Header, Card, Grid } from 'semantic-ui-react';
 import CityHeader from './Header';
 import ForecastCard from './ForecastCard';
 import Bar from './Forecast';
 import ForecastLoader from './Loader';
 import TempLineChart from './TempLine';
 import Error from './Error';
+import CurrentWeather from './CurrentWeather';
 
 class WeatherInfo extends React.Component {
   constructor(props) {
@@ -27,18 +28,9 @@ class WeatherInfo extends React.Component {
           humidity: [],
           precipChance: [],
         },
-        daily: [
-          {
-            time: '',
-            high: '',
-            low: '',
-            humidity: '',
-            precipChance: '',
-          },
-        ],
-        minutely: { time: [], precipChance: [], precipIntensity: [] },
+        daily: [],
       },
-      filter: '',
+      loaded: false,
       error: false,
     };
   }
@@ -49,7 +41,7 @@ class WeatherInfo extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
-      this.setState({ filter: '', error: false }, this.getWeather());
+      this.setState({ error: false, loaded: false }, this.getWeather());
     }
   }
 
@@ -63,11 +55,11 @@ class WeatherInfo extends React.Component {
       .then(weather => this.setWeather(weather))
       .catch(err => {
         this.setState({ error: true });
-      })
-      .then(this.filterForecast);
+      });
   };
 
   setWeather = weather => {
+    console.log(this.weather);
     const dailyWeather = [];
     const currentAlerts = [];
     if (typeof weather.alerts !== 'undefined' && weather.alerts.length > 0) {
@@ -107,41 +99,21 @@ class WeatherInfo extends React.Component {
       });
     });
 
-    const minutelyWeather = {
-      time: weather.minutely.data.map(minute => minute.time),
-      precipChance: weather.minutely.data.map(minute => minute.precipProbability),
-      precipIntensity: weather.minutely.data.map(minute => minute.precipIntensity),
-    };
     this.setState({
       weather: currentWeather,
       alerts: currentAlerts,
       forecast: {
         hourly: hourlyWeather,
         daily: dailyWeather,
-        minutely: minutelyWeather,
       },
+      loaded: true,
     });
   };
 
-  filterForecast = (timespan = 'hourly') => {
-    const newFilter = this.state.forecast[timespan];
-    if (timespan === 'daily') {
-      this.setState({
-        filter: {
-          time: newFilter.time,
-          temperature: newFilter.high,
-          precipChance: newFilter.precipChance,
-        },
-      });
-    } else {
-      this.setState({ filter: newFilter });
-    }
-  };
-
-  controlFilter = () => {
+  controlRender = () => {
     if (this.state.error === true) {
       return <Error />;
-    } else if (this.state.filter === '') {
+    } else if (this.state.loaded === false) {
       return <ForecastLoader />;
     } else {
       return (
@@ -152,36 +124,17 @@ class WeatherInfo extends React.Component {
             image={this.state.weather.imageId}
             alerts={this.state.alerts}
           />
-          <Statistic.Group widths="four" size="small">
-            <Statistic color="purple">
-              <Statistic.Value>{Math.round(this.state.weather.temperature)}</Statistic.Value>
-              <Statistic.Label>Temperature</Statistic.Label>
-            </Statistic>
-            <Statistic color="teal">
-              <Statistic.Value>{`${Math.round(
-                this.state.weather.humidity * 100,
-              )}%`}</Statistic.Value>
-              <Statistic.Label>Humidity</Statistic.Label>
-            </Statistic>
-            <Statistic color="orange">
-              <Statistic.Value>{Math.round(this.state.weather.high)}</Statistic.Value>
-              <Statistic.Label>High</Statistic.Label>
-            </Statistic>
-            <Statistic color="olive">
-              <Statistic.Value>{Math.round(this.state.weather.low)}</Statistic.Value>
-              <Statistic.Label>Low</Statistic.Label>
-            </Statistic>
-          </Statistic.Group>
+          <CurrentWeather weather={this.state.weather} />
           <Divider />
           <Header size="large">Today and Tomorrow</Header>
           <Grid centered columns={2}>
             <Grid.Column>
               <Header size="small">Hourly precipitation chance</Header>
-              <Bar forecast={this.state.filter} />
+              <Bar forecast={this.state.forecast.hourly} />
             </Grid.Column>
             <Grid.Column>
               <Header size="small">Hourly temperature and humidity</Header>
-              <TempLineChart forecast={this.state.filter} />
+              <TempLineChart forecast={this.state.forecast.hourly} />
             </Grid.Column>
           </Grid>
           <Header size="large">This Week</Header>
@@ -194,7 +147,7 @@ class WeatherInfo extends React.Component {
   };
 
   render() {
-    return this.controlFilter();
+    return this.controlRender();
   }
 }
 
