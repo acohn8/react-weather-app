@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import SearchResults from './SearchResults';
 
@@ -79,13 +79,15 @@ class Search extends React.Component {
       <div>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
-            <label>Search for a location</label>
             <Input
-              onChange={this.handleChange}
-              icon="search"
+              icon
               placeholder="Search..."
+              onChange={this.handleChange}
               value={this.state.search}
-            />
+            >
+              <input />
+              <Icon name="search" />
+            </Input>
           </Form.Field>
         </Form>
         {this.returnList()}

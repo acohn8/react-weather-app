@@ -23,12 +23,6 @@ class App extends React.Component {
     }
   }
 
-  getLoc = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      this.searchforLocation(`${position.coords.longitude}, ${position.coords.latitude}`);
-    });
-  };
-
   setLocation = response => {
     this.setState({
       location: {
