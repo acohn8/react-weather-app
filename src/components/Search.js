@@ -23,14 +23,13 @@ class Search extends React.Component {
     }
   }
 
-  searchforLocation = () => {
-    if (this.state.search.length > 0) {
-      this.fetchLocationFrag(this.state.search);
+  searchforLocation = input => {
+    if (input.length > 0) {
+      this.fetchLocationFrag(input);
     }
   };
 
   fetchLocationFrag = search => {
-    console.log(search);
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&autocomplete=true`,
     )
@@ -39,7 +38,6 @@ class Search extends React.Component {
   };
 
   fetchSearchLocation = search => {
-    console.log(search);
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A`,
     )
@@ -54,7 +52,7 @@ class Search extends React.Component {
   };
 
   handleChange = event => {
-    this.setState({ search: event.target.value }, this.searchforLocation(this.state.search));
+    this.setState({ search: event.target.value }, this.searchforLocation(event.target.value));
   };
 
   handleSubmit = event => {
@@ -63,7 +61,7 @@ class Search extends React.Component {
   };
 
   returnList = () => {
-    if (this.state.loaded === false || this.state.results === []) {
+    if (this.state.loaded === false) {
       return (
         <div>
           <SearchResults results={this.state.results} select={this.fetchSearchLocation} />
