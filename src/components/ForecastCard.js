@@ -9,7 +9,7 @@ const ForecastCard = (props) => {
     <Card>
       <Card.Content>
         <Card.Header>{moment(date).format('ddd MMMM D')}</Card.Header>
-        <Card.Meta>{props.data.summary}</Card.Meta>
+        <Card.Meta style={{ minHeight: 20 }}>{props.data.summary}</Card.Meta>
         <Statistic.Group horizontal size="mini">
           <Statistic color="orange">
             <Statistic.Value>{Math.round(props.data.high)}</Statistic.Value>

@@ -1,10 +1,10 @@
+import { Grid, Container } from 'semantic-ui-react';
+
 import React from 'react';
 import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
 import Error from './Error';
-
-import { Grid, Container } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Nav />
+        <Nav location={this.state.location.name} />
         <Grid stackable centered columns={4}>
           <Grid.Column>
             <Search setLocation={this.setLocation} />

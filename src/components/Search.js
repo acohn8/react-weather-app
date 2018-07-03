@@ -77,6 +77,7 @@ class Search extends React.Component {
   render() {
     return (
       <div>
+        Search for a location
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
             <Input

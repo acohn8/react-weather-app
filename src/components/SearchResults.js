@@ -8,7 +8,7 @@ class ListExampleHeader extends React.Component {
 
   render() {
     return (
-      <List selection verticalAlign="middle divided relaxed">
+      <List selection>
         {this.props.results.map(result => (
           <List.Item key={result.id} onClick={this.handleClick} result={result}>
             <List.Icon

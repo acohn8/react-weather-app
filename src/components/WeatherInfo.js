@@ -5,7 +5,6 @@ import ForecastCard from './ForecastCard';
 import TodayAndTomorrow from './TodayAndTomorrow';
 import ForecastLoader from './Loader';
 import Error from './Error';
-import CurrentWeather from './CurrentWeather';
 
 class WeatherInfo extends React.Component {
   constructor(props) {
@@ -43,6 +42,7 @@ class WeatherInfo extends React.Component {
   };
 
   setWeather = weather => {
+    console.log(weather);
     const dailyWeather = [];
     const currentAlerts = [];
 
@@ -75,6 +75,11 @@ class WeatherInfo extends React.Component {
       low: weather.daily.data[0].apparentTemperatureLow,
       conditions: weather.minutely.summary,
       humidity: weather.currently.humidity,
+      wind: weather.currently.windSpeed,
+      precipChance: weather.daily.data[0].precipProbability,
+      uvIndex: weather.currently.uvIndex,
+      sunrise: weather.daily.data[0].sunriseTime,
+      sunset: weather.daily.data[0].sunsetTime,
       imageId: weather.currently.icon,
     };
 
@@ -104,13 +109,7 @@ class WeatherInfo extends React.Component {
     } else {
       return (
         <div>
-          <CityHeader
-            city={this.props.location.name}
-            conditions={this.state.weather.conditions}
-            image={this.state.weather.imageId}
-            alerts={this.state.alerts}
-          />
-          <CurrentWeather weather={this.state.weather} />
+          <CityHeader weather={this.state.weather} alerts={this.state.alerts} />
           <Divider section />
           <TodayAndTomorrow forecast={this.state.forecast.hourly} />
           <Divider section />
