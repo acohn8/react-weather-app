@@ -3,6 +3,7 @@ import Nav from './Nav';
 import Search from './Search';
 import WeatherInfo from './WeatherInfo';
 import Error from './Error';
+
 import { Grid, Container } from 'semantic-ui-react';
 
 class App extends React.Component {
@@ -22,31 +23,19 @@ class App extends React.Component {
     }
   }
 
-  geoLocate = () => {
+  getLoc = () => {
     navigator.geolocation.getCurrentPosition(position => {
       this.searchforLocation(`${position.coords.longitude}, ${position.coords.latitude}`);
     });
   };
 
-  searchforLocation = input => {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${input}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A`,
-    )
-      .then(res => res.json())
-      .then(geoData =>
-        this.setState(
-          {
-            location: {
-              name: geoData.features[0].place_name,
-              coords: geoData.features[0].center,
-            },
-          },
-          this.getWeather,
-        ),
-      )
-      .catch(err => {
-        this.setState({ error: true });
-      });
+  setLocation = response => {
+    this.setState({
+      location: {
+        name: response.features[0].place_name,
+        coords: response.features[0].center,
+      },
+    });
   };
 
   controlRender = () => {
@@ -69,7 +58,7 @@ class App extends React.Component {
         <Nav />
         <Grid stackable centered columns={4}>
           <Grid.Column>
-            <Search getLocation={this.searchforLocation} locate={this.geoLocate} />
+            <Search setLocation={this.setLocation} />
           </Grid.Column>
           <Grid.Row centered columns={1}>
             <Container>
