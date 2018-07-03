@@ -16,30 +16,34 @@ class Search extends React.Component {
   componentDidUpdate() {
     if (this.state.loaded === true) {
       this.setState({
-        searchTerm: '',
+        search: '',
         loaded: false,
         results: [],
       });
     }
   }
 
-  searchforLocation = input => {
-    if (input.length > 0) {
-      this.fetchLocationFrag(input);
+  searchforLocation = () => {
+    if (this.state.search.length > 1) {
+      this.fetchLocationFrag();
     }
   };
 
-  fetchLocationFrag = search => {
+  fetchLocationFrag = () => {
     fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&autocomplete=true`,
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
+        this.state.search
+      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&autocomplete=true`,
     )
       .then(res => res.json())
       .then(json => this.setState({ results: json.features.slice(0, 5) }));
   };
 
-  fetchSearchLocation = search => {
+  fetchSearchLocation = () => {
     fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A`,
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
+        this.state.search
+      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A`,
     )
       .then(res => res.json())
       .then(geoData => this.props.setLocation(geoData))
@@ -52,12 +56,12 @@ class Search extends React.Component {
   };
 
   handleChange = event => {
-    this.setState({ search: event.target.value }, this.searchforLocation(event.target.value));
+    this.setState({ search: event.target.value }, _.debounce(this.searchforLocation, 200));
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({ loaded: true }, this.fetchSearchLocation(this.state.search));
+    this.setState(this.fetchSearchLocation);
   };
 
   returnList = () => {
