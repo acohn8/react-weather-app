@@ -21,7 +21,9 @@ class CityHeader extends React.Component {
           <Header size="large">
             Now
             <Header.Subheader>{this.props.weather.conditions}</Header.Subheader>
-            {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
+            <Segment basic>
+              {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
+            </Segment>
           </Header>
         </Grid.Row>
         {this.state.details === false ? (
