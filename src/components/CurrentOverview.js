@@ -16,7 +16,7 @@ const colors = {
 };
 
 const CurrentOverview = props => (
-  <Grid.Column centered>
+  <Grid.Column>
     <Grid.Row>
       <Skycons
         animate
