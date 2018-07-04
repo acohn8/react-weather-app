@@ -47,12 +47,14 @@ class Search extends React.Component {
     )
       .then(res => res.json())
       .then(geoData => this.props.setLocation(geoData))
-      .then(
-        this.setState({
-          results: [],
-          loaded: true,
-        }),
-      );
+      .then(this.completeLoad);
+  };
+
+  completeLoad = () => {
+    this.setState({
+      results: [],
+      loaded: true,
+    });
   };
 
   handleChange = event => {
