@@ -11,7 +11,7 @@ const Alert = props => (
   <div>
     {props.alerts.map(alert => (
       <Popup
-        trigger={<Icon name="exclamation triangle" size="large" color={colors[alert.severity]} />}
+        trigger={<Icon name="exclamation triangle" size="small" color={colors[alert.severity]} />}
         key={alert.index}
         header={alert.title}
         content={alert.description}

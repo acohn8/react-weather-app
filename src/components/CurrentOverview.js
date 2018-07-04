@@ -16,12 +16,12 @@ const colors = {
 };
 
 const CurrentOverview = props => (
-  <Grid centered columns={4}>
+  <Grid.Column centered>
     <Grid.Row>
       <Skycons
         animate
         iconColor={colors[props.weather.imageId]}
-        style={{ width: 120, height: 120, align: 'center' }}
+        style={{ width: 130, height: 130, align: 'center' }}
         icon={props.weather.imageId}
       />
     </Grid.Row>
@@ -31,6 +31,6 @@ const CurrentOverview = props => (
         <Statistic.Label>Degrees</Statistic.Label>
       </Statistic>
     </Grid.Row>
-  </Grid>
+  </Grid.Column>
 );
 export default CurrentOverview;

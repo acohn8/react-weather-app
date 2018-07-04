@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Grid, Button } from 'semantic-ui-react';
+import { Header, Grid, Button, Segment } from 'semantic-ui-react';
 import CurrentDetail from './CurrentDetail';
 import Alert from './Alert';
 import CurrentOverview from './CurrentOverview';
@@ -16,11 +16,12 @@ class CityHeader extends React.Component {
 
   render() {
     return (
-      <Grid>
-        <Grid.Row centered columns={4}>
+      <Segment basic>
+        <Grid.Row>
           <Header size="large">
             Now
             <Header.Subheader>{this.props.weather.conditions}</Header.Subheader>
+            {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
           </Header>
         </Grid.Row>
         {this.state.details === false ? (
@@ -28,13 +29,10 @@ class CityHeader extends React.Component {
         ) : (
           <CurrentDetail weather={this.props.weather} />
         )}
-        <Grid.Row centered columns={4}>
-          <Button onClick={this.handleClick} primary>
-            {this.state.details === false ? 'Details' : 'Overview'}
-          </Button>
-        </Grid.Row>
-        {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
-      </Grid>
+        <Button onClick={this.handleClick} primary>
+          {this.state.details === false ? 'Details' : 'Overview'}
+        </Button>
+      </Segment>
     );
   }
 }
