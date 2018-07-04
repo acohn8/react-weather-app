@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Statistic } from 'semantic-ui-react';
+import { Grid, Statistic, Segment } from 'semantic-ui-react';
 import Skycons from 'skycons-component';
 
 const colors = {
@@ -16,21 +16,23 @@ const colors = {
 };
 
 const CurrentOverview = props => (
-  <Grid.Column>
-    <Grid.Row>
-      <Skycons
-        animate
-        iconColor={colors[props.weather.imageId]}
-        style={{ width: 130, height: 130, align: 'center' }}
-        icon={props.weather.imageId}
-      />
-    </Grid.Row>
-    <Grid.Row>
-      <Statistic size="huge" color="olive">
-        <Statistic.Value>{Math.round(props.weather.temperature)}</Statistic.Value>
-        <Statistic.Label>Degrees</Statistic.Label>
-      </Statistic>
-    </Grid.Row>
-  </Grid.Column>
+  <Segment basic>
+    <Grid.Column>
+      <Grid.Row>
+        <Skycons
+          animate
+          iconColor={colors[props.weather.imageId]}
+          style={{ width: 130, height: 130, align: 'center' }}
+          icon={props.weather.imageId}
+        />
+      </Grid.Row>
+      <Grid.Row>
+        <Statistic size="huge" color="olive">
+          <Statistic.Value>{Math.round(props.weather.temperature)}</Statistic.Value>
+          <Statistic.Label>Degrees</Statistic.Label>
+        </Statistic>
+      </Grid.Row>
+    </Grid.Column>
+  </Segment>
 );
 export default CurrentOverview;

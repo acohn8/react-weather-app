@@ -28,6 +28,8 @@ class Search extends React.Component {
   searchforLocation = () => {
     if (this.state.search.length > 1) {
       this.fetchLocationFrag();
+    } else {
+      this.setState({ results: [] });
     }
   };
 
@@ -35,7 +37,7 @@ class Search extends React.Component {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${
         this.state.search
-      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&autocomplete=true`,
+      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us&autocomplete=true`,
     )
       .then(res => res.json())
       .then(json => this.setState({ results: json.features.slice(0, 5) }));
