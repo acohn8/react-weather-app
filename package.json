@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "chart.js": "^2.7.2",
+    "chartjs-plugin-datalabels": "^0.3.0",
     "mapbox-geocoding": "^0.1.5",
     "moment": "^2.22.2",
     "react": "^16.4.1",
@@ -24,5 +25,4 @@
   "devDependencies": {
     "svg-loader": "^0.0.2"
   }
-
 }

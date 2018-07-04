@@ -9,15 +9,17 @@ class Search extends React.Component {
     this.state = {
       search: '',
       results: [],
-      loaded: false,
+      locationFound: false,
+      loading: false,
     };
   }
 
   componentDidUpdate() {
-    if (this.state.loaded === true) {
+    if (this.state.locationFound === true) {
       this.setState({
         search: '',
-        loaded: false,
+        locationFound: false,
+        loading: false,
         results: [],
       });
     }
@@ -53,7 +55,7 @@ class Search extends React.Component {
   completeLoad = () => {
     this.setState({
       results: [],
-      loaded: true,
+      locationFound: true,
     });
   };
 
@@ -61,13 +63,26 @@ class Search extends React.Component {
     this.setState({ search: event.target.value }, _.debounce(this.searchforLocation, 200));
   };
 
+  startGeolocate = () => {
+    this.setState({ loading: true }, this.geolocate);
+  };
+
+  geolocate = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      this.setState(
+        { search: `${position.coords.longitude}, ${position.coords.latitude}` },
+        this.fetchSearchLocation,
+      );
+    });
+  };
+
   handleSubmit = event => {
     event.preventDefault();
-    this.setState(this.fetchSearchLocation);
+    this.setState({ loading: true }, this.fetchSearchLocation);
   };
 
   returnList = () => {
-    if (this.state.loaded === false) {
+    if (this.state.locationFound === false) {
       return (
         <div>
           <SearchResults results={this.state.results} select={this.fetchSearchLocation} />
@@ -82,15 +97,28 @@ class Search extends React.Component {
         Search for a location
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
-            <Input
-              icon
-              placeholder="Search..."
-              onChange={this.handleChange}
-              value={this.state.search}
-            >
-              <input />
-              <Icon name="search" />
-            </Input>
+            {this.state.loading === true ? (
+              <Input loading placeholder="Search..." />
+            ) : (
+              <Input
+                icon
+                placeholder="Search..."
+                onChange={this.handleChange}
+                value={this.state.search}
+              >
+                <input />
+                {
+                  <Icon
+                    name="location arrow"
+                    color="blue"
+                    inverted
+                    circular
+                    link
+                    onClick={this.startGeolocate}
+                  />
+                }
+              </Input>
+            )}
           </Form.Field>
         </Form>
         {this.returnList()}
