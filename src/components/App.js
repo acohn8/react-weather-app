@@ -34,11 +34,7 @@ class App extends React.Component {
 
   controlRender = () => {
     if (this.state.error === true) {
-      return (
-        <Grid stackable centered columns={2}>
-          <Error />
-        </Grid>
-      );
+      return <Error />;
     } else if (this.state.location.name === '') {
       return null;
     } else {
@@ -50,23 +46,21 @@ class App extends React.Component {
     return (
       <div>
         <Nav location={this.state.location.name} />
-        <Grid stackable centered columns={4} padded>
-          <Grid.Column>
-            <Search setLocation={this.setLocation} />
-          </Grid.Column>
-          <Grid.Row centered columns={1}>
-            <Container>
-              <Grid.Column>{this.controlRender()}</Grid.Column>
-            </Container>
-          </Grid.Row>
-          <Grid.Row centered columns={1}>
-            <small>
-              Weather: Powered by Dark Sky<br />
-              Geocoding: <a href="https://www.mapbox.com/about/maps/">© Mapbox</a>,
-              <a href="https://www.openstreetmap.org/about/">© OpenStreetMap</a>
-            </small>
-          </Grid.Row>
-        </Grid>
+        <Container>
+          <Grid stackable centered relaxed>
+            <Grid.Column>
+              <Search setLocation={this.setLocation} />
+              <Grid.Row>{this.controlRender()}</Grid.Row>
+              <Grid.Row>
+                <small>
+                  Weather: Powered by Dark Sky<br />
+                  Geocoding: <a href="https://www.mapbox.com/about/maps/">© Mapbox</a>,
+                  <a href="https://www.openstreetmap.org/about/">© OpenStreetMap</a>
+                </small>
+              </Grid.Row>
+            </Grid.Column>
+          </Grid>
+        </Container>
       </div>
     );
   }

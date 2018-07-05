@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Icon } from 'semantic-ui-react';
+import { Form, Input, Icon, Segment } from 'semantic-ui-react';
 import _ from 'lodash';
 import SearchResults from './SearchResults';
 
@@ -95,7 +95,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div>
+      <Segment basic>
         Search for a location
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
@@ -124,7 +124,7 @@ class Search extends React.Component {
           </Form.Field>
         </Form>
         {this.returnList()}
-      </div>
+      </Segment>
     );
   }
 }
