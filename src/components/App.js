@@ -46,7 +46,7 @@ class App extends React.Component {
     return (
       <div>
         <Nav location={this.state.location.name} />
-        <Container>
+        <Container style={{ marginTop: '3em' }}>
           <Grid stackable centered relaxed>
             <Grid.Column>
               <Search setLocation={this.setLocation} />

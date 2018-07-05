@@ -6,7 +6,6 @@ class ListExampleHeader extends React.Component {
     this.props.select(data.result.id);
   };
   render() {
-    console.log(this.props.results);
     return (
       <List selection>
         {this.props.results.map(result => (

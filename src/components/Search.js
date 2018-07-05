@@ -96,7 +96,6 @@ class Search extends React.Component {
   render() {
     return (
       <Segment basic>
-        Search for a location
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
             {this.state.loading === true ? (
