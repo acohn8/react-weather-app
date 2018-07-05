@@ -111,7 +111,7 @@ class Search extends React.Component {
                 {
                   <Icon
                     name="location arrow"
-                    color="blue"
+                    color="green"
                     inverted
                     circular
                     link

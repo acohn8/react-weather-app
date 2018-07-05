@@ -31,6 +31,13 @@ const ForecastCard = (props) => {
             </List.Content>
           </List.Item>
           <List.Item>
+            <List.Icon name="rain" size="large" verticalAlign="middle" color="grey" />
+            <List.Content>
+              <List.Header>{`${Math.round(props.data.precipChance * 100)}`}%</List.Header>
+              <List.Description>Precipitation Chance</List.Description>
+            </List.Content>
+          </List.Item>
+          <List.Item>
             <List.Icon name="shower" size="large" verticalAlign="middle" color="grey" />
             <List.Content>
               <List.Header>{`${Math.round(props.data.humidity * 100)}`}%</List.Header>

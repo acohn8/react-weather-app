@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon, Menu } from 'semantic-ui-react';
 
 const Nav = props => (
-  <Menu icon fixed="top">
+  <Menu icon inverted color="blue" fixed="top">
     <Menu.Item name="sun">
       <Icon name="sun" />
     </Menu.Item>

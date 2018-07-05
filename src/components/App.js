@@ -24,9 +24,10 @@ class App extends React.Component {
   }
 
   setLocation = response => {
+    console.log(response);
     this.setState({
       location: {
-        name: response.features[0].place_name,
+        name: response.features[0].text,
         coords: response.features[0].center,
       },
     });
