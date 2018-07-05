@@ -45,7 +45,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Nav location={this.state.location.name} />>
+        <Nav location={this.state.location.name} />
         <Container>
           <Grid stackable centered relaxed>
             <Grid.Column>
