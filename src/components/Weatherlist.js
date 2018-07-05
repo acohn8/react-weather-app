@@ -28,10 +28,6 @@ const WeatherList = ({ weather }) => {
               <List.Description>Low</List.Description>
             </List.Content>
           </List.Item>
-        </List>
-      </Grid.Row>
-      <Grid.Row>
-        <List relaxed horizontal>
           <List.Item>
             <List.Icon name="shower" size="large" verticalAlign="middle" color="grey" />
             <List.Content>
@@ -39,6 +35,10 @@ const WeatherList = ({ weather }) => {
               <List.Description>Humidity</List.Description>
             </List.Content>
           </List.Item>
+        </List>
+      </Grid.Row>
+      <Grid.Row>
+        <List relaxed horizontal>
           <List.Item>
             <List.Icon name="flag" size="large" verticalAlign="middle" color="grey" />
             <List.Content>
