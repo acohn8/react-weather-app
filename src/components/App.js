@@ -45,11 +45,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Nav location={this.state.location.name} />
-        <Container>
+        {/* <Nav location={this.state.location.name} /> */}
+        <Search setLocation={this.setLocation} location={this.state.location.name} />
+        <Container style={{ marginTop: '5em' }}>
           <Grid stackable centered relaxed>
             <Grid.Column>
-              <Search setLocation={this.setLocation} />
               <Grid.Row>{this.controlRender()}</Grid.Row>
               <Grid.Row>
                 <small>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Icon, Segment } from 'semantic-ui-react';
+import { Form, Input, Icon, Grid, Menu, Container } from 'semantic-ui-react';
 import _ from 'lodash';
 import SearchResults from './SearchResults';
 
@@ -95,38 +95,84 @@ class Search extends React.Component {
 
   render() {
     return (
-      <Segment basic>
-        Search for a location
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Field>
-            {this.state.loading === true ? (
-              <Input loading placeholder="Search..." />
-            ) : (
-              <Input
-                icon
-                placeholder="Search..."
-                onChange={this.handleChange}
-                value={this.state.search}
-              >
-                <input />
-                {
-                  <Icon
-                    name="location arrow"
-                    color="blue"
-                    inverted
-                    circular
-                    link
-                    onClick={this.startGeolocate}
-                  />
-                }
-              </Input>
-            )}
-          </Form.Field>
-        </Form>
-        {this.returnList()}
-      </Segment>
+      <div>
+        <Menu fixed="top" compact>
+          <Container>
+            <Menu.Item>{this.props.location === '' ? 'Search' : this.props.location}</Menu.Item>
+            <Menu.Item position="right">
+              <Form onSubmit={this.handleSubmit}>
+                {this.state.loading === true ? (
+                  <Input loading placeholder="Search..." />
+                ) : (
+                  <Input
+                    icon
+                    placeholder="Search..."
+                    onChange={this.handleChange}
+                    value={this.state.search}
+                  >
+                    <input />
+                    {
+                      <Icon
+                        name="location arrow"
+                        color="blue"
+                        inverted
+                        circular
+                        link
+                        onClick={this.startGeolocate}
+                      />
+                    }
+                  </Input>
+                )}
+              </Form>
+            </Menu.Item>
+          </Container>
+        </Menu>
+        {/* <Container> */}
+        <Grid stackable columns={2}>
+          <Grid.Column />
+          <Grid.Column floated="right" style={{ marginTop: '2em' }}>
+            {this.returnList()}
+          </Grid.Column>
+        </Grid>
+        {/* </Container> */}
+      </div>
     );
   }
+
+  // render() {
+  //   return (
+  //     <Segment basic>
+  //       Search for a location
+  //       <Form onSubmit={this.handleSubmit}>
+  //         <Form.Field>
+  //           {this.state.loading === true ? (
+  //             <Input loading placeholder="Search..." />
+  //           ) : (
+  //             <Input
+  //               icon
+  //               placeholder="Search..."
+  //               onChange={this.handleChange}
+  //               value={this.state.search}
+  //             >
+  //               <input />
+  //               {
+  //                 <Icon
+  //                   name="location arrow"
+  //                   color="blue"
+  //                   inverted
+  //                   circular
+  //                   link
+  //                   onClick={this.startGeolocate}
+  //                 />
+  //               }
+  //             </Input>
+  //           )}
+  //         </Form.Field>
+  //       </Form>
+  //       {this.returnList()}
+  //     </Segment>
+  //   );
+  // }
 }
 
 export default Search;
