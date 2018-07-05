@@ -17,15 +17,11 @@ class CityHeader extends React.Component {
   render() {
     return (
       <div>
-        <Grid columns={4} centered relaxed>
-          <Grid.Column>
-            <Header size="large">
-              Now
-              <Header.Subheader>{this.props.weather.conditions}</Header.Subheader>
-              {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
-            </Header>
-          </Grid.Column>
-        </Grid>
+        <Header size="large">
+          Now
+          <Header.Subheader>{this.props.weather.conditions}</Header.Subheader>
+          {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
+        </Header>
         <Grid columns={4} centered relaxed>
           <Grid.Column>
             <CurrentOverview weather={this.props.weather} alerts={this.props.alerts} />
