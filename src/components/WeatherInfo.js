@@ -66,6 +66,7 @@ class WeatherInfo extends React.Component {
         precipChance: day.precipProbability,
         summary: day.summary,
         imageId: day.icon,
+        wind: day.windSpeed,
       });
     });
 
@@ -89,6 +90,7 @@ class WeatherInfo extends React.Component {
       humidity: weather.hourly.data.map(hour => hour.humidity),
       precipChance: weather.hourly.data.map(hour => hour.precipProbability),
       tomorrowDesc: weather.daily.summary,
+      summary: weather.hourly.summary,
     };
 
     this.setState({
@@ -114,7 +116,10 @@ class WeatherInfo extends React.Component {
           <Divider section />
           <TodayAndTomorrow forecast={this.state.forecast.hourly} />
           <Divider section />
-          <Header size="large">This Week</Header>
+          <Header size="large">
+            This Week
+            <Header.Subheader>{this.state.forecast.hourly.tomorrowDesc}</Header.Subheader>
+          </Header>
           <Card.Group stackable itemsPerRow={4}>
             {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}
           </Card.Group>

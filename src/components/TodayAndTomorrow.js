@@ -7,7 +7,7 @@ const TodayAndTomorrow = ({ forecast }) => (
   <div>
     <Header size="large">
       Today and Tomorrow
-      <Header.Subheader>{forecast.tomorrowDesc}</Header.Subheader>
+      <Header.Subheader>{forecast.summary}</Header.Subheader>
     </Header>
     <Grid centered stackable columns={2}>
       <Grid.Column>
