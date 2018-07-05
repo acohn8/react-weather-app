@@ -19,12 +19,14 @@ class CityHeader extends React.Component {
       <div>
         <Header size="large">
           Now
-          <Header.Subheader>{this.props.weather.conditions}</Header.Subheader>
-          {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
+          <Header.Subheader>
+            {this.props.weather.conditions}
+            {this.props.alerts.length > 0 ? <Alert alerts={this.props.alerts} /> : ''}
+          </Header.Subheader>
         </Header>
         <Grid columns={4} centered relaxed>
           <Grid.Column>
-            <CurrentOverview weather={this.props.weather} alerts={this.props.alerts} />
+            <CurrentOverview weather={this.props.weather} />
           </Grid.Column>
         </Grid>
         <WeatherList weather={this.props.weather} />

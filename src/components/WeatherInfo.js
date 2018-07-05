@@ -88,6 +88,7 @@ class WeatherInfo extends React.Component {
       temperature: weather.hourly.data.map(hour => hour.apparentTemperature),
       humidity: weather.hourly.data.map(hour => hour.humidity),
       precipChance: weather.hourly.data.map(hour => hour.precipProbability),
+      tomorrowDesc: weather.daily.summary,
     };
 
     this.setState({

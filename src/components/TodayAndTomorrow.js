@@ -5,7 +5,10 @@ import TempLine from './TempLine';
 
 const TodayAndTomorrow = ({ forecast }) => (
   <div>
-    <Header size="large">Today and Tomorrow</Header>
+    <Header size="large">
+      Today and Tomorrow
+      <Header.Subheader>{forecast.tomorrowDesc}</Header.Subheader>
+    </Header>
     <Grid centered stackable columns={2}>
       <Grid.Column>
         <Header size="small">Precipitation chance</Header>
