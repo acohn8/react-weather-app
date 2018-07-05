@@ -5,8 +5,8 @@ class ListExampleHeader extends React.Component {
   handleClick = (event, data) => {
     this.props.select(data.result.id);
   };
-
   render() {
+    console.log(this.props.results);
     return (
       <List selection>
         {this.props.results.map(result => (
@@ -19,7 +19,12 @@ class ListExampleHeader extends React.Component {
             />
             <List.Content>
               <List.Header>{result.text}</List.Header>
-              <List.Description>{result.matching_place_name}</List.Description>
+              <List.Description>
+                {result.place_name
+                  .split(',')
+                  .filter(place => place !== result.text)
+                  .join(', ')}
+              </List.Description>
             </List.Content>
           </List.Item>
         ))}
