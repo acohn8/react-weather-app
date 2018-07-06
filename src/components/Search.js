@@ -47,7 +47,7 @@ class Search extends React.Component {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${
         this.state.search
-      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A`,
+      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`,
     )
       .then(res => res.json())
       .then(geoData => this.props.setLocation(geoData))

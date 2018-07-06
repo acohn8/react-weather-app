@@ -17,7 +17,7 @@ class ListExampleHeader extends React.Component {
               color="blue"
             />
             <List.Content>
-              <List.Header>{result.text}</List.Header>
+              <List.Header>{result.place_name}</List.Header>
               <List.Description>
                 {result.place_name
                   .split(',')
