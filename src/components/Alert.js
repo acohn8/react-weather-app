@@ -15,7 +15,7 @@ const Alert = props => (
         key={alert.index}
         header={alert.title}
         content={alert.description}
-        position="right center"
+        position="bottom right"
         wide="very"
         hideOnScroll
       />
