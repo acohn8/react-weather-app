@@ -7,7 +7,7 @@ const ListExampleHeader = (props) => {
     <List.Item key={result.id} onClick={() => props.select(props)}>
       <List.Icon name="map marker alternate" size="large" verticalAlign="middle" color="blue" />
       <List.Content>
-        <List.Header>{result.place_name}</List.Header>
+        <List.Header>{result.text}</List.Header>
         <List.Description>
           {result.place_name
             .split(',')

@@ -24,7 +24,6 @@ class App extends React.Component {
   }
 
   setLocation = response => {
-    console.log(response);
     this.setState({
       location: {
         name: response.features[0].text,
