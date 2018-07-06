@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Icon, Segment } from 'semantic-ui-react';
+import { Form, Input, Icon, Segment, List } from 'semantic-ui-react';
 import _ from 'lodash';
 import SearchResults from './SearchResults';
 
@@ -78,6 +78,10 @@ class Search extends React.Component {
     });
   };
 
+  getSelection = element => {
+    this.setState({ search: element.result.id, loading: true }, this.fetchSearchLocation);
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     this.setState({ loading: true }, this.fetchSearchLocation);
@@ -87,7 +91,11 @@ class Search extends React.Component {
     if (this.state.locationFound === false) {
       return (
         <div>
-          <SearchResults results={this.state.results} select={this.fetchSearchLocation} />
+          {this.state.results.map(result => (
+            <List selection>
+              <SearchResults key={result.id} result={result} select={this.getSelection} />
+            </List>
+          ))}
         </div>
       );
     }
