@@ -1,4 +1,4 @@
-import { Grid, Container } from 'semantic-ui-react';
+import { Grid, Container, Item, Icon, Divider } from 'semantic-ui-react';
 
 import React from 'react';
 import Nav from './Nav';
@@ -52,11 +52,19 @@ class App extends React.Component {
               <Search setLocation={this.setLocation} />
               <Grid.Row>{this.controlRender()}</Grid.Row>
               <Grid.Row>
+                <Divider section hidden />
                 <small>
-                  Weather: Powered by Dark Sky<br />
-                  Geocoding: <a href="https://www.mapbox.com/about/maps/">© Mapbox</a>,
-                  <a href="https://www.openstreetmap.org/about/">© OpenStreetMap</a>
+                  <div>Weather: Powered by Dark Sky</div>
+                  <div>
+                    Geocoding: <a href="https://www.mapbox.com/about/maps/">© Mapbox</a>,
+                    <a href="https://www.openstreetmap.org/about/">© OpenStreetMap</a>
+                  </div>
                 </small>
+                <div>
+                  <Item as="a" href="https://github.com/acohn8/react-weather-app">
+                    <Icon name="github" size="large" color="grey" />
+                  </Item>
+                </div>
               </Grid.Row>
             </Grid.Column>
           </Grid>
