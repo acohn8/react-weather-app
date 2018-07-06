@@ -78,7 +78,7 @@ class Search extends React.Component {
     });
   };
 
-  getSelection = element => {
+  getLocationFromList = element => {
     this.setState({ search: element.result.id, loading: true }, this.fetchSearchLocation);
   };
 
@@ -93,7 +93,7 @@ class Search extends React.Component {
         <div>
           {this.state.results.map(result => (
             <List selection>
-              <SearchResults key={result.id} result={result} select={this.getSelection} />
+              <SearchResults key={result.id} result={result} select={this.getLocationFromList} />
             </List>
           ))}
         </div>
@@ -130,7 +130,12 @@ class Search extends React.Component {
             )}
           </Form.Field>
         </Form>
-        {this.returnList()}
+        {this.state.locationFound === false &&
+          this.state.results.map(result => (
+            <List selection>
+              <SearchResults key={result.id} result={result} select={this.getLocationFromList} />
+            </List>
+          ))}
       </Segment>
     );
   }
