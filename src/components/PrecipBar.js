@@ -36,7 +36,7 @@ const chartOptions = {
 
 const PrecipBar = ({ forecast }) => {
   const chartData = {
-    labels: forecast.time.map(date => date * 1000),
+    labels: forecast.map(hour => hour.time * 1000),
     datasets: [
       {
         type: 'bar',
@@ -44,7 +44,7 @@ const PrecipBar = ({ forecast }) => {
         label: 'Precipitation %',
         backgroundColor: '#2085D0',
         borderColor: '#2085D0',
-        data: forecast.precipChance.map(hour => hour * 100),
+        data: forecast.map(hour => hour.precipProbability * 100),
       },
     ],
   };

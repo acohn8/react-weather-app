@@ -14,7 +14,6 @@ class WeatherInfo extends React.Component {
       alerts: [],
       forecast: {},
       loading: true,
-      loaded: false,
       error: false,
     };
   }
@@ -24,89 +23,66 @@ class WeatherInfo extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
+    if (prevProps !== undefined && this.props !== prevProps) {
       this.setState({ error: false, loading: true }, this.getWeather);
     }
   }
 
   getWeather = () => {
-    fetch(
-      `https://cryptic-headland-94862.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
-        this.props.location.coords[1]
-      },${this.props.location.coords[0]}`,
-    )
-      .then(res => res.json())
-      .then(weather => this.setWeather(weather))
-      .catch(err => {
-        this.setState({ error: true });
-      });
+    this.setState({ loading: true }, () => {
+      fetch(
+        `https://cryptic-headland-94862.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
+          this.props.location.coords[1]
+        },${this.props.location.coords[0]}`,
+      )
+        .then(res => res.json())
+        .then(weather => this.setWeather(weather))
+        .catch(err => this.setState({ error: true }));
+    });
   };
 
   setWeather = weather => {
-    console.log(weather);
-    const currentAlerts = [];
-
-    if (typeof weather.alerts !== 'undefined' && weather.alerts.length > 0) {
-      weather.alerts.forEach(alert => {
-        currentAlerts.push({
-          title: alert.title,
-          index: weather.alerts.indexOf(alert),
-          severity: alert.severity,
-          description: alert.description,
-        });
-      });
-    }
-
-    const dailyWeather = weather.daily.data.map(day => {
-      ({
-        time: day.time,
-        high: day.apparentTemperatureHigh,
-        low: day.apparentTemperatureLow,
-        humidity: day.humidity,
-        precipChance: day.precipProbability,
-        summary: day.summary,
-        imageId: day.icon,
-        wind: day.windSpeed,
-      });
+    const currentWeather = weather.currently;
+    const dailyWeather = weather.daily;
+    const hourlyWeather = weather.hourly;
+    this.setState({
+      forecast: { daily: dailyWeather, current: currentWeather, hourly: hourlyWeather },
+      loading: false,
     });
-
-    const currentWeather = {
-      temperature: weather.currently.apparentTemperature,
-      high: weather.daily.data[0].apparentTemperatureHigh,
-      low: weather.daily.data[0].apparentTemperatureLow,
-      conditions: weather.minutely.summary,
-      humidity: weather.currently.humidity,
-      wind: weather.currently.windSpeed,
-      precipChance: weather.daily.data[0].precipProbability,
-      uvIndex: weather.currently.uvIndex,
-      sunrise: weather.daily.data[0].sunriseTime,
-      sunset: weather.daily.data[0].sunsetTime,
-      imageId: weather.currently.icon,
-    };
-
-    const hourlyWeather = weather.hourly.data;
-    const tomorrowDesc = weather.daily.summary;
-
-    this.setState(
-      {
-        weather: currentWeather,
-        alerts: currentAlerts,
-        forecast: {
-          hourly: hourlyWeather,
-          daily: dailyWeather,
-        },
-        tomorrowDesc: tomorrowDesc,
-        loaded: true,
-        loading: false,
-      },
-      console.log(this.state.forecast),
-    );
   };
 
   render() {
     return (
       <div>
         {this.state.error === true && <Error />}
+        {this.state.loading === true && <ForecastLoader />}
+        {this.state.loading === false && (
+          <div>
+            {console.log(this.state.forecast)}
+            <CityHeader
+              currentWeather={this.state.forecast.current}
+              dailyWeather={this.state.forecast.daily.data[0]}
+              alerts={this.state.alerts}
+            />
+            <Divider section />
+            <TodayAndTomorrow forecast={this.state.forecast.hourly} />
+            <Divider section />
+            <Header size="large">
+              This Week
+              <Header.Subheader>{this.state.forecast.daily.summary}</Header.Subheader>
+            </Header>
+            <Card.Group stackable itemsPerRow={4}>
+              {this.state.forecast.daily.data.map(day => <ForecastCard key={day.time} day={day} />)}
+            </Card.Group>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
+{
+  /* {this.state.error === true && <Error />}
         {this.state.loading === true && <ForecastLoader />}
         {this.state.loading === false &&
           this.state.forecast.hourly.length > 0 && (
@@ -125,8 +101,7 @@ class WeatherInfo extends React.Component {
             </div>
           )}
       </div>
-    );
-  }
+    ); */
 }
 
 export default WeatherInfo;

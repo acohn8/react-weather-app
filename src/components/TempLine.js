@@ -27,7 +27,7 @@ const chartOptions = {
 
 const TempLine = ({ forecast }) => {
   const chartData = {
-    labels: forecast.time.map(date => date * 1000),
+    labels: forecast.map(hour => hour.time * 1000),
     datasets: [
       {
         type: 'line',
@@ -35,14 +35,14 @@ const TempLine = ({ forecast }) => {
         label: 'Temperature',
         backgroundColor: '#F2711B',
         borderColor: '#F2711B',
-        data: forecast.temperature.map(data => Math.round(data)),
+        data: forecast.map(hour => Math.round(hour.temperature)),
       },
       {
         type: 'line',
         label: 'Humidity %',
         backgroundColor: 'rgba(0, 181, 173, 0.2)',
         borderColor: 'rgba(0, 181, 173, 0.2)',
-        data: forecast.humidity.map(hour => hour * 100),
+        data: forecast.map(hour => hour.humidity * 100),
       },
     ],
   };

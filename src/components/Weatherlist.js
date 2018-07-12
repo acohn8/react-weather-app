@@ -3,8 +3,8 @@ import { List, Grid } from 'semantic-ui-react';
 import moment from 'moment';
 
 const WeatherList = ({ weather }) => {
-  const sunrise = new Date(weather.sunrise * 1000);
-  const sunset = new Date(weather.sunset * 1000);
+  const sunrise = new Date(weather.sunriseTime * 1000);
+  const sunset = new Date(weather.sunsetTime * 1000);
   return (
     <Grid columns={4} centered relaxed>
       <Grid.Row>
@@ -17,14 +17,14 @@ const WeatherList = ({ weather }) => {
               color="grey"
             />
             <List.Content>
-              <List.Header>{Math.round(weather.high)}</List.Header>
+              <List.Header>{Math.round(weather.temperatureHigh)}</List.Header>
               <List.Description>High</List.Description>
             </List.Content>
           </List.Item>
           <List.Item>
             <List.Icon name="thermometer empty" size="large" verticalAlign="middle" color="grey" />
             <List.Content>
-              <List.Header>{Math.round(weather.low)}</List.Header>
+              <List.Header>{Math.round(weather.temperatureLow)}</List.Header>
               <List.Description>Low</List.Description>
             </List.Content>
           </List.Item>
@@ -42,7 +42,7 @@ const WeatherList = ({ weather }) => {
           <List.Item>
             <List.Icon name="flag" size="large" verticalAlign="middle" color="grey" />
             <List.Content>
-              <List.Header>{Math.round(weather.wind)} MPH</List.Header>
+              <List.Header>{Math.round(weather.windSpeed)} MPH</List.Header>
               <List.Description>Wind</List.Description>
             </List.Content>
           </List.Item>

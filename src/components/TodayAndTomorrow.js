@@ -6,6 +6,7 @@ import TempVBar from './NewTempBar';
 
 const TodayAndTomorrow = ({ forecast }) => (
   <div>
+    {console.log(forecast)}
     <Header size="large">
       Today and Tomorrow
       <Header.Subheader>{forecast.summary}</Header.Subheader>
@@ -13,12 +14,11 @@ const TodayAndTomorrow = ({ forecast }) => (
     <Grid centered stackable columns={2}>
       <Grid.Column>
         <Header size="small">Precipitation chance</Header>
-        <PrecipBar forecast={forecast} />
+        <PrecipBar forecast={forecast.data} />
       </Grid.Column>
       <Grid.Column>
         <Header size="small">Temperature and humidity</Header>
-        {/* <TempLine forecast={forecast} /> */}
-        <TempVBar forecast={forecast} />
+        <TempLine forecast={forecast.data} />
       </Grid.Column>
     </Grid>
   </div>
