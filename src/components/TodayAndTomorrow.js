@@ -2,6 +2,8 @@ import React from 'react';
 import { Header, Grid } from 'semantic-ui-react';
 import PrecipBar from './PrecipBar';
 import TempLine from './TempLine';
+import TempVBar from './NewTempBar';
+import PrecipVBar from './NewPercipBar';
 
 const TodayAndTomorrow = ({ forecast }) => (
   <div>
@@ -12,11 +14,11 @@ const TodayAndTomorrow = ({ forecast }) => (
     <Grid centered stackable columns={2}>
       <Grid.Column>
         <Header size="small">Precipitation chance</Header>
-        <PrecipBar forecast={forecast.data} />
+        <PrecipVBar forecast={forecast.data} />
       </Grid.Column>
       <Grid.Column>
-        <Header size="small">Temperature and humidity</Header>
-        <TempLine forecast={forecast.data} />
+        <Header size="small">Temperature </Header>
+        <TempVBar forecast={forecast.data} />
       </Grid.Column>
     </Grid>
   </div>
