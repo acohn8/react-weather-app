@@ -10,7 +10,6 @@ class WeatherInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      weather: {},
       alerts: [],
       forecast: {},
       loading: true,
@@ -25,12 +24,11 @@ class WeatherInfo extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.location !== this.props.location) {
       this.getWeather();
-      // this.setState({ error: false, loading: true });
     }
   }
 
   getWeather = () => {
-    this.setState({ loading: true }, () => {
+    this.setState({ loading: true, error: false }, () => {
       fetch(
         `https://cryptic-headland-94862.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
           this.props.location.coords[1]

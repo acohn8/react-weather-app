@@ -37,7 +37,6 @@ const chartOptions = {
 };
 
 const TempBar = ({ forecast }) => {
-  console.log(forecast.daily);
   const chartData = {
     labels: forecast.daily.map(date => date.time * 1000),
     datasets: [

@@ -78,27 +78,13 @@ class Search extends React.Component {
     });
   };
 
-  getLocationFromList = element => {
-    this.setState({ search: element.result.id, loading: true }, this.fetchSearchLocation);
+  getLocationFromList = result => {
+    this.setState({ search: result.id, loading: true }, this.fetchSearchLocation);
   };
 
   handleSubmit = event => {
     event.preventDefault();
     this.setState({ loading: true }, this.fetchSearchLocation);
-  };
-
-  returnList = () => {
-    if (this.state.locationFound === false) {
-      return (
-        <div>
-          {this.state.results.map(result => (
-            <List selection>
-              <SearchResults key={result.id} result={result} select={this.getLocationFromList} />
-            </List>
-          ))}
-        </div>
-      );
-    }
   };
 
   render() {

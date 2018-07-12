@@ -7,20 +7,15 @@ const colors = {
   warning: 'red',
 };
 
-const Alert = props => (
-  <div>
-    {props.alerts.map(alert => (
-      <Popup
-        trigger={<Icon name="exclamation triangle" size="small" color={colors[alert.severity]} />}
-        key={alert.index}
-        header={alert.title}
-        content={alert.description}
-        position="bottom right"
-        wide="very"
-        hideOnScroll
-      />
-    ))}
-  </div>
+const Alert = ({ alert }) => (
+  <Popup
+    trigger={<Icon name="exclamation triangle" size="small" color={colors[alert.severity]} />}
+    header={alert.title}
+    content={alert.description}
+    position="bottom right"
+    wide="very"
+    hideOnScroll
+  />
 );
 
 export default Alert;
