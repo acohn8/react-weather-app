@@ -48,19 +48,11 @@ class App extends React.Component {
         loading: false,
         submitted: false,
         error: false,
+        search: '',
       });
     } else {
       this.setState({ error: true, loading: false });
     }
-  };
-
-  setLocation = response => {
-    this.setState({
-      location: {
-        name: response.features[0].text,
-        coords: response.features[0].center,
-      },
-    });
   };
 
   setSearch = term => {
