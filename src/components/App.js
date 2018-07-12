@@ -34,11 +34,11 @@ class App extends React.Component {
 
   controlRender = () => {
     if (this.state.error === true) {
-      return <Error />;
+      return;
     } else if (this.state.location.name === '') {
       return null;
     } else {
-      return <WeatherInfo location={this.state.location} />;
+      return;
     }
   };
 
@@ -50,7 +50,12 @@ class App extends React.Component {
           <Grid stackable centered relaxed>
             <Grid.Column>
               <Search setLocation={this.setLocation} />
-              <Grid.Row>{this.controlRender()}</Grid.Row>
+              <Grid.Row>
+                {this.state.error === true && <Error />}
+                {this.state.location.coords.length === 2 && (
+                  <WeatherInfo location={this.state.location} />
+                )}
+              </Grid.Row>
               <Grid.Row>
                 <Divider section hidden />
                 <small>

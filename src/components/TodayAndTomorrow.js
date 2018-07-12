@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, Grid } from 'semantic-ui-react';
 import PrecipBar from './PrecipBar';
 import TempLine from './TempLine';
+import TempVBar from './NewTempBar';
 
 const TodayAndTomorrow = ({ forecast }) => (
   <div>
@@ -16,7 +17,8 @@ const TodayAndTomorrow = ({ forecast }) => (
       </Grid.Column>
       <Grid.Column>
         <Header size="small">Temperature and humidity</Header>
-        <TempLine forecast={forecast} />
+        {/* <TempLine forecast={forecast} /> */}
+        <TempVBar forecast={forecast} />
       </Grid.Column>
     </Grid>
   </div>

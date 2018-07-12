@@ -13,6 +13,7 @@ class WeatherInfo extends React.Component {
       weather: {},
       alerts: [],
       forecast: {},
+      loading: true,
       loaded: false,
       error: false,
     };
@@ -24,7 +25,7 @@ class WeatherInfo extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
-      this.setState({ error: false, loaded: false }, this.getWeather());
+      this.setState({ error: false, loading: true }, this.getWeather);
     }
   }
 
@@ -42,7 +43,7 @@ class WeatherInfo extends React.Component {
   };
 
   setWeather = weather => {
-    const dailyWeather = [];
+    console.log(weather);
     const currentAlerts = [];
 
     if (typeof weather.alerts !== 'undefined' && weather.alerts.length > 0) {
@@ -56,8 +57,8 @@ class WeatherInfo extends React.Component {
       });
     }
 
-    weather.daily.data.forEach(day => {
-      dailyWeather.push({
+    const dailyWeather = weather.daily.data.map(day => {
+      ({
         time: day.time,
         high: day.apparentTemperatureHigh,
         low: day.apparentTemperatureLow,
@@ -83,52 +84,48 @@ class WeatherInfo extends React.Component {
       imageId: weather.currently.icon,
     };
 
-    const hourlyWeather = {
-      time: weather.hourly.data.map(hour => hour.time),
-      temperature: weather.hourly.data.map(hour => hour.apparentTemperature),
-      humidity: weather.hourly.data.map(hour => hour.humidity),
-      precipChance: weather.hourly.data.map(hour => hour.precipProbability),
-      tomorrowDesc: weather.daily.summary,
-      summary: weather.hourly.summary,
-    };
+    const hourlyWeather = weather.hourly.data;
+    const tomorrowDesc = weather.daily.summary;
 
-    this.setState({
-      weather: currentWeather,
-      alerts: currentAlerts,
-      forecast: {
-        hourly: hourlyWeather,
-        daily: dailyWeather,
+    this.setState(
+      {
+        weather: currentWeather,
+        alerts: currentAlerts,
+        forecast: {
+          hourly: hourlyWeather,
+          daily: dailyWeather,
+        },
+        tomorrowDesc: tomorrowDesc,
+        loaded: true,
+        loading: false,
       },
-      loaded: true,
-    });
-  };
-
-  controlRender = () => {
-    if (this.state.error === true) {
-      return <Error />;
-    } else if (this.state.loaded === false) {
-      return <ForecastLoader />;
-    } else {
-      return (
-        <div>
-          <CityHeader weather={this.state.weather} alerts={this.state.alerts} />
-          <Divider section />
-          <TodayAndTomorrow forecast={this.state.forecast.hourly} />
-          <Divider section />
-          <Header size="large">
-            This Week
-            <Header.Subheader>{this.state.forecast.hourly.tomorrowDesc}</Header.Subheader>
-          </Header>
-          <Card.Group stackable itemsPerRow={4}>
-            {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}
-          </Card.Group>
-        </div>
-      );
-    }
+      console.log(this.state.forecast),
+    );
   };
 
   render() {
-    return this.controlRender();
+    return (
+      <div>
+        {this.state.error === true && <Error />}
+        {this.state.loading === true && <ForecastLoader />}
+        {this.state.loading === false &&
+          this.state.forecast.hourly.length > 0 && (
+            <div>
+              <CityHeader weather={this.state.weather} alerts={this.state.alerts} />
+              <Divider section />
+              <TodayAndTomorrow forecast={this.state.forecast.hourly} />
+              <Divider section />
+              <Header size="large">
+                This Week
+                <Header.Subheader>{this.state.tomorrowDesc}</Header.Subheader>
+              </Header>
+              <Card.Group stackable itemsPerRow={4}>
+                {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}
+              </Card.Group>
+            </div>
+          )}
+      </div>
+    );
   }
 }
 
