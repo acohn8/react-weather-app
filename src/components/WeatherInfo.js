@@ -81,27 +81,4 @@ class WeatherInfo extends React.Component {
   }
 }
 
-{
-  /* {this.state.error === true && <Error />}
-        {this.state.loading === true && <ForecastLoader />}
-        {this.state.loading === false &&
-          this.state.forecast.hourly.length > 0 && (
-            <div>
-              <CityHeader weather={this.state.weather} alerts={this.state.alerts} />
-              <Divider section />
-              <TodayAndTomorrow forecast={this.state.forecast.hourly} />
-              <Divider section />
-              <Header size="large">
-                This Week
-                <Header.Subheader>{this.state.tomorrowDesc}</Header.Subheader>
-              </Header>
-              <Card.Group stackable itemsPerRow={4}>
-                {this.state.forecast.daily.map(day => <ForecastCard key={day.time} data={day} />)}
-              </Card.Group>
-            </div>
-          )}
-      </div>
-    ); */
-}
-
 export default WeatherInfo;
