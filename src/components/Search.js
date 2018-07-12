@@ -130,12 +130,13 @@ class Search extends React.Component {
             )}
           </Form.Field>
         </Form>
-        {this.state.locationFound === false &&
-          this.state.results.map(result => (
-            <List selection>
+        {this.state.locationFound === false && (
+          <List selection>
+            {this.state.results.map(result => (
               <SearchResults key={result.id} result={result} select={this.getLocationFromList} />
-            </List>
-          ))}
+            ))}
+          </List>
+        )}
       </Segment>
     );
   }

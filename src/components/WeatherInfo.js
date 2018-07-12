@@ -23,8 +23,9 @@ class WeatherInfo extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps !== undefined && this.props !== prevProps) {
-      this.setState({ error: false, loading: true }, this.getWeather);
+    if (prevProps.location !== this.props.location) {
+      this.getWeather();
+      // this.setState({ error: false, loading: true });
     }
   }
 
@@ -42,11 +43,15 @@ class WeatherInfo extends React.Component {
   };
 
   setWeather = weather => {
+    console.log(weather);
     const currentWeather = weather.currently;
     const dailyWeather = weather.daily;
     const hourlyWeather = weather.hourly;
+    let currentAlerts;
+    weather.alerts !== undefined ? (currentAlerts = weather.alerts) : (currentAlerts = []);
     this.setState({
       forecast: { daily: dailyWeather, current: currentWeather, hourly: hourlyWeather },
+      alerts: currentAlerts,
       loading: false,
     });
   };
@@ -58,7 +63,6 @@ class WeatherInfo extends React.Component {
         {this.state.loading === true && <ForecastLoader />}
         {this.state.loading === false && (
           <div>
-            {console.log(this.state.forecast)}
             <CityHeader
               currentWeather={this.state.forecast.current}
               dailyWeather={this.state.forecast.daily.data[0]}

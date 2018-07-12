@@ -32,16 +32,6 @@ class App extends React.Component {
     });
   };
 
-  controlRender = () => {
-    if (this.state.error === true) {
-      return;
-    } else if (this.state.location.name === '') {
-      return null;
-    } else {
-      return;
-    }
-  };
-
   render() {
     return (
       <div>

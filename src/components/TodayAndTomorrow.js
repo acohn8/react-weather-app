@@ -2,11 +2,9 @@ import React from 'react';
 import { Header, Grid } from 'semantic-ui-react';
 import PrecipBar from './PrecipBar';
 import TempLine from './TempLine';
-import TempVBar from './NewTempBar';
 
 const TodayAndTomorrow = ({ forecast }) => (
   <div>
-    {console.log(forecast)}
     <Header size="large">
       Today and Tomorrow
       <Header.Subheader>{forecast.summary}</Header.Subheader>
