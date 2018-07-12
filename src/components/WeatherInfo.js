@@ -41,7 +41,6 @@ class WeatherInfo extends React.Component {
   };
 
   setWeather = weather => {
-    console.log(weather);
     const currentWeather = weather.currently;
     const dailyWeather = weather.daily;
     const hourlyWeather = weather.hourly;
