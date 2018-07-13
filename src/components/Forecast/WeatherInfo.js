@@ -3,8 +3,8 @@ import { Divider, Header, Card } from 'semantic-ui-react';
 import CityHeader from './Header';
 import ForecastCard from './ForecastCard';
 import TodayAndTomorrow from './TodayAndTomorrow';
-import ForecastLoader from './Loader';
-import Error from './Error';
+import ForecastLoader from '../Loader';
+import Error from '../Error';
 
 class WeatherInfo extends React.Component {
   constructor(props) {
