@@ -38,18 +38,16 @@ class SearchContainer extends React.Component {
 
   completeLoad = json => {
     if (json.features.length > 0) {
-      this.setState(
-        {
-          results: [],
-          loading: false,
-          error: false,
-          submitted: false,
-          search: '',
-        },
-        () => this.props.saveLocation(json.features['0'].text, json.features['0'].center),
-      );
+      this.props.saveLocation(json.features['0'].text, json.features['0'].center);
+      this.setState({
+        results: [],
+        loading: false,
+        error: false,
+        submitted: false,
+        search: '',
+      });
     } else {
-      this.setState({ error: true, loading: false });
+      this.setState({ error: true, loading: false, results: [], submitted: false });
     }
   };
 
@@ -62,7 +60,7 @@ class SearchContainer extends React.Component {
   };
 
   handleSubmit = () => {
-    this.setState({ loading: true, submitted: true, results: [] }, this.fetchSearchLocation);
+    this.setState({ loading: true, submitted: true }, this.fetchSearchLocation);
   };
 
   geoLocate = () => {
