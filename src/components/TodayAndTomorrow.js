@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, Grid } from 'semantic-ui-react';
-import TempVBar from './NewTempBar';
+import WeatherGraph from './WeatherGraph';
 
 const TodayAndTomorrow = ({ forecast }) => (
   <div>
@@ -10,7 +10,7 @@ const TodayAndTomorrow = ({ forecast }) => (
     </Header>
     <Header size="small">Temperature & precipitation chance</Header>
     <Grid.Row style={{ height: '30%' }}>
-      <TempVBar forecast={forecast.data} />
+      <WeatherGraph forecast={forecast.data} />
     </Grid.Row>
   </div>
 );

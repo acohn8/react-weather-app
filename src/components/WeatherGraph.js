@@ -1,16 +1,15 @@
 import {
-  VictoryBar,
+  VictoryArea,
   VictoryChart,
   VictoryTooltip,
   VictoryLine,
   createContainer,
   VictoryBrushContainer,
   VictoryAxis,
-  VictoryTheme,
 } from 'victory';
 import React from 'react';
 
-class TempVBar extends React.Component {
+class WeatherGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -42,11 +41,11 @@ class TempVBar extends React.Component {
           width={700}
           height={200}
           scale={{ x: 'time' }}
-          theme={VictoryTheme.material}
-          padding={{ top: 0, left: 50, right: 50, bottom: 35 }}
+          padding={{ top: 5, left: 50, right: 50, bottom: 35 }}
+          domainPadding={7}
           containerComponent={
             <VictoryZoomVoronoiContainer
-              domain={{ y: [0, 110] }}
+              // ={{ y: [0, 110] }}
               zoomDimension="x"
               zoomDomain={this.state.zoomDomain}
               onZoomDomainChange={this.handleZoom}
@@ -60,17 +59,21 @@ class TempVBar extends React.Component {
             interpolation="natural"
             data={tempData}
             style={{
-              data: { stroke: 'orange' },
+              data: { stroke: '#F2711B' },
               strokeWidth: 10,
               strokeLinecap: 'round',
             }}
           />
-          <VictoryBar data={precipData} cornerRadius={3} style={{ data: { fill: 'teal' } }} />
+          <VictoryArea
+            data={precipData}
+            interpolation="natural"
+            cornerRadius={3}
+            style={{ data: { fill: '#00B5AE' } }}
+          />
         </VictoryChart>
 
         <VictoryChart
-          theme={VictoryTheme.material}
-          domain={{ y: [0, 110] }}
+          domainPadding={7}
           padding={{ top: 0, left: 50, right: 50, bottom: 30 }}
           width={700}
           height={70}
@@ -88,15 +91,15 @@ class TempVBar extends React.Component {
             interpolation="natural"
             data={tempData}
             style={{
-              data: { stroke: 'orange' },
+              data: { stroke: '#F2711B' },
               strokeWidth: 10,
               strokeLinecap: 'round',
             }}
           />
-          <VictoryBar data={precipData} cornerRadius={3} style={{ data: { fill: 'teal' } }} />
+          <VictoryArea data={precipData} cornerRadius={3} style={{ data: { fill: '#00B5AE' } }} />
         </VictoryChart>
       </div>
     );
   }
 }
-export default TempVBar;
+export default WeatherGraph;

@@ -36,7 +36,7 @@ class App extends React.Component {
               : this.completeLoad(json),
         );
     } else {
-      this.setState({ results: [] });
+      this.setState({ results: [], error: true, search: '' });
     }
   };
 
@@ -64,7 +64,10 @@ class App extends React.Component {
   };
 
   handleSubmit = () => {
-    this.setState({ loading: true, submitted: true }, this.fetchSearchLocation);
+    this.setState(
+      { loading: true, submitted: true, results: [], location: { name: '', coords: [] } },
+      this.fetchSearchLocation,
+    );
   };
 
   geoLocate = () => {
