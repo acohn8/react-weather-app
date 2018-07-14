@@ -3,7 +3,7 @@ import { List } from 'semantic-ui-react';
 import { saveLocation } from '../../redux/actions';
 import { connect } from 'react-redux';
 
-const SearchResult = props => (
+const ListExampleHeader = props => (
   <List.Item onClick={() => props.saveLocation(props.result.id)}>
     <List.Icon name="map marker alternate" size="large" verticalAlign="middle" color="blue" />
     <List.Content>
@@ -25,4 +25,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps,
-)(SearchResult);
+)(ListExampleHeader);
