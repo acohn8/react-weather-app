@@ -1,5 +1,7 @@
 import React from 'react';
 import { Divider, Header, Card } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+
 import CityHeader from './Header';
 import ForecastCard from './ForecastCard';
 import TodayAndTomorrow from './TodayAndTomorrow';
@@ -31,8 +33,8 @@ class WeatherInfo extends React.Component {
     this.setState({ loading: true, error: false }, () => {
       fetch(
         `https://cryptic-headland-94862.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
-          this.props.location.coords[1]
-        },${this.props.location.coords[0]}`,
+          this.props.coords[1]
+        },${this.props.coords[0]}`,
       )
         .then(res => res.json())
         .then(weather => this.setWeather(weather))
@@ -82,4 +84,6 @@ class WeatherInfo extends React.Component {
   }
 }
 
-export default WeatherInfo;
+const mapStateToProps = state => ({ coords: state.coords, locationName: state.locationName });
+
+export default connect(mapStateToProps)(WeatherInfo);

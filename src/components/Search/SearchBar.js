@@ -1,33 +1,37 @@
 import React from 'react';
 import { Input, Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
-class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: '',
-    };
-  }
+import { fetchLocation, saveLocation } from '../../redux/actions';
 
-  handleChange = event => {
-    this.setState({ search: event.target.value }, () => this.props.setSearch(this.state.search));
-  };
+const Search = props =>
+  (props.loading === false ? (
+    <Input icon placeholder="Search..." onChange={e => props.fetchLocation(e.target.value)}>
+      <input />
+      <Icon
+        name="location arrow"
+        color="olive"
+        inverted
+        circular
+        link
+        onClick={() =>
+          props.saveLocation(navigator.geolocation.getCurrentPosition(position => `${position.coords.longitude}, ${position.coords.latitude}`))
+        }
+      />
+    </Input>
+  ) : (
+    <Input loading icon="user" placeholder="Search..." />
+  ));
 
-  render() {
-    return (
-      <Input icon placeholder="Search..." onChange={this.handleChange} value={this.state.search}>
-        <input />
-        <Icon
-          name="location arrow"
-          color="olive"
-          inverted
-          circular
-          link
-          onClick={this.props.geoLocate}
-        />
-      </Input>
-    );
-  }
-}
+const mapStateToProps = state => ({ loading: state.loading });
 
-export default Search;
+const mapDispatchToProps = dispatch => ({
+  fetchLocation: term => dispatch(fetchLocation(term)),
+  saveLocation: term => dispatch(saveLocation(term)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Search);

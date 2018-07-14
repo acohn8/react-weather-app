@@ -46,18 +46,14 @@ const WeatherList = ({ weather }) => (
         <List.Item>
           <List.Icon name="sun" size="large" verticalAlign="middle" color="grey" />
           <List.Content>
-            <List.Header>
-              {moment(new Date(weather.sunriseTime * 1000)).format('h:mm')}
-            </List.Header>
+            <List.Header>{moment(new Date(weather.sunriseTime * 1000)).format('h:mm')}</List.Header>
             <List.Description>Sunrise</List.Description>
           </List.Content>
         </List.Item>
         <List.Item>
           <List.Icon name="moon" size="large" verticalAlign="middle" color="grey" />
           <List.Content>
-            <List.Header>
-              {moment(new Date(weather.sunsetTime * 1000)).format('h:mm')}
-            </List.Header>
+            <List.Header>{moment(new Date(weather.sunsetTime * 1000)).format('h:mm')}</List.Header>
             <List.Description>Sunset</List.Description>
           </List.Content>
         </List.Item>
