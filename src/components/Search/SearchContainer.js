@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Segment, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { submitLocation } from '../../redux/actions';
+import { fetchLocation } from '../../redux/actions';
 
 import Error from '../Error';
 import Search from './SearchBar';
@@ -10,7 +10,7 @@ import SearchResults from './SearchResults';
 const SearchContainer = props => (
   <Segment basic>
     {props.error === true && <Error />}
-    <Form onSubmit={() => props.submitLocation(props.searchTerm)}>
+    <Form onSubmit={() => props.fetchLocation(props.searchTerm, true)}>
       <Form.Field>
         <Search />
       </Form.Field>
@@ -30,7 +30,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  submitLocation: location => dispatch(submitLocation(location)),
+  fetchLocation: (location, submit) => dispatch(fetchLocation(location, submit)),
 });
 
 export default connect(

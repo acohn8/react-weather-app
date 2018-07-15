@@ -24,7 +24,7 @@ class WeatherInfo extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.location !== this.props.location) {
+    if (prevProps.coords !== this.props.coords) {
       this.getWeather();
     }
   }

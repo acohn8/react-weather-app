@@ -14,7 +14,7 @@ const App = props => (
       <Grid stackable centered relaxed>
         <Grid.Column>
           <SearchContainer />
-          <Grid.Row>{props.coords.length === 2 && <WeatherInfo />}</Grid.Row>
+          <Grid.Row>{props.coords.length === 2 && <WeatherInfo coords={props.coords} />}</Grid.Row>
           <Divider section hidden />
           <Footer />
         </Grid.Column>

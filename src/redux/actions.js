@@ -1,31 +1,35 @@
-const getLocation = location =>
-  fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`).then(res => res.json());
+import axios from 'axios';
+
+const fetchLocation = (term, submit) => (dispatch) => {
+  if (term.length > 0) {
+    dispatch({ type: 'SET_SEARCH', text: term });
+    axios
+      .get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${term}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`)
+      .then(res =>
+        (submit === true
+          ? dispatch(saveLocation(res.data))
+          : dispatch({ type: 'SET_RESULTS', results: res.data.features.slice(0, 5) })));
+  }
+  dispatch({ type: 'SET_RESULTS', results: [], text: '' });
+};
 
 const geoLocate = () => (dispatch) => {
   dispatch({ type: 'LOADING' });
-  navigator.geolocation.getCurrentPosition(position =>
-    getLocation(`${position.coords.longitude}, ${position.coords.latitude}`).then(json =>
-      dispatch(saveLocation(json))));
+  navigator.geolocation.getCurrentPosition((position) => {
+    const coords = `${position.coords.longitude}, ${position.coords.latitude}`;
+    dispatch(fetchLocation(coords, true));
+  });
 };
 
-const submitLocation = location => (dispatch) => {
-  dispatch({ type: 'LOADING' });
-  getLocation(location).then(json => dispatch(saveLocation(json)));
-};
-
-const createResultsList = search => (dispatch) => {
-  if (search.length > 0) {
-    getLocation(search).then(json =>
-      dispatch({ type: 'SET_RESULTS', results: json.features.slice(0, 5) }));
-  } else {
-    dispatch({ type: 'SET_RESULTS', results: [], text: '' });
+const saveLocation = (location) => {
+  if (location.features.length > 0) {
+    return {
+      type: 'SAVE_LOCATION',
+      name: location.features['0'].text,
+      coords: location.features['0'].center,
+    };
   }
+  return { type: 'ERROR' };
 };
 
-const saveLocation = location => ({
-  type: 'SAVE_LOCATION',
-  name: location.features['0'].text,
-  coords: location.features['0'].center,
-});
-
-export { geoLocate, submitLocation, createResultsList };
+export { geoLocate, fetchLocation };
