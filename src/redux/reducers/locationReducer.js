@@ -10,7 +10,7 @@ const initialLocationState = {
 const locationReducer = (previousState = initialLocationState, action) => {
   switch (action.type) {
     case 'SET_RESULTS':
-      return { ...previousState, results: action.results };
+      return { ...previousState, results: action.results, loading: false };
     case 'SAVE_LOCATION':
       return {
         ...previousState,
@@ -19,10 +19,7 @@ const locationReducer = (previousState = initialLocationState, action) => {
         loading: false,
         error: false,
         results: [],
-        searchTerm: '',
       };
-    case 'SET_SEARCH':
-      return { ...previousState, searchTerm: action.text };
     case 'LOADING':
       return { ...previousState, loading: true };
     case 'ERROR':

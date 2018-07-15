@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const fetchLocation = (term, submit) => (dispatch) => {
   if (term.length > 0) {
-    dispatch({ type: 'SET_SEARCH', text: term });
     axios
       .get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${term}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`)
       .then(res =>

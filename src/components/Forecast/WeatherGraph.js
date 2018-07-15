@@ -8,12 +8,10 @@ import {
   VictoryAxis,
 } from 'victory';
 import React from 'react';
+import { connect } from 'react-redux';
 
 class WeatherGraph extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
 
   handleZoom = domain => {
     this.setState({ selectedDomain: domain });
@@ -45,7 +43,6 @@ class WeatherGraph extends React.Component {
           domainPadding={7}
           containerComponent={
             <VictoryZoomVoronoiContainer
-              // ={{ y: [0, 110] }}
               zoomDimension="x"
               zoomDomain={this.state.zoomDomain}
               onZoomDomainChange={this.handleZoom}
@@ -102,4 +99,9 @@ class WeatherGraph extends React.Component {
     );
   }
 }
-export default WeatherGraph;
+
+const mapStateToProps = state => ({
+  forecast: state.weather.forecast.hourly.data,
+});
+
+export default connect(mapStateToProps)(WeatherGraph);

@@ -7,14 +7,14 @@ import WeatherInfo from './components/Forecast/WeatherInfo';
 import SearchContainer from './components/Search/SearchContainer';
 import Footer from './components/Footer';
 
-const App = props => (
+const App = ({ coords }) => (
   <div>
     <Nav />
     <Container style={{ marginTop: '3em' }}>
       <Grid stackable centered relaxed>
         <Grid.Column>
           <SearchContainer />
-          <Grid.Row>{props.coords.length === 2 && <WeatherInfo coords={props.coords} />}</Grid.Row>
+          <Grid.Row>{coords.length === 2 && <WeatherInfo />}</Grid.Row>
           <Divider section hidden />
           <Footer />
         </Grid.Column>
@@ -23,6 +23,8 @@ const App = props => (
   </div>
 );
 
-const mapStateToProps = state => ({ coords: state.coords, locationName: state.locationName });
+const mapStateToProps = state => ({
+  coords: state.location.coords,
+});
 
 export default connect(mapStateToProps)(App);

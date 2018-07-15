@@ -1,5 +1,7 @@
 import React from 'react';
 import { Header, Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+
 import WeatherGraph from './WeatherGraph';
 
 const TodayAndTomorrow = ({ forecast }) => (
@@ -10,9 +12,13 @@ const TodayAndTomorrow = ({ forecast }) => (
     </Header>
     <Header size="small">Temperature & precipitation chance</Header>
     <Grid.Row style={{ height: '30%' }}>
-      <WeatherGraph forecast={forecast.data} />
+      <WeatherGraph />
     </Grid.Row>
   </div>
 );
 
-export default TodayAndTomorrow;
+const mapStateToProps = state => ({
+  forecast: state.weather.forecast.hourly,
+});
+
+export default connect(mapStateToProps)(TodayAndTomorrow);

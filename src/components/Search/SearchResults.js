@@ -1,17 +1,17 @@
 import React from 'react';
 import { List } from 'semantic-ui-react';
-import { fetchLocation } from '../../redux/actions';
+import { fetchLocation } from '../../redux/actions/locationActions';
 import { connect } from 'react-redux';
 
-const ListExampleHeader = props => (
-  <List.Item onClick={() => props.fetchLocation(props.result.id, true)}>
+const ListExampleHeader = ({ result, fetchLocation }) => (
+  <List.Item onClick={() => fetchLocation(result.id, true)}>
     <List.Icon name="map marker alternate" size="large" verticalAlign="middle" color="blue" />
     <List.Content>
-      <List.Header>{props.result.text}</List.Header>
+      <List.Header>{result.text}</List.Header>
       <List.Description>
-        {props.result.place_name
+        {result.place_name
           .split(',')
-          .filter(place => place !== props.result.text)
+          .filter(place => place !== result.text)
           .join(', ')}
       </List.Description>
     </List.Content>

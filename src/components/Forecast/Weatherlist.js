@@ -1,5 +1,6 @@
 import React from 'react';
 import { List, Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 const WeatherList = ({ weather }) => (
@@ -62,4 +63,8 @@ const WeatherList = ({ weather }) => (
   </Grid>
 );
 
-export default WeatherList;
+const mapStateToProps = state => ({
+  weather: state.weather.forecast.daily.data[0],
+});
+
+export default connect(mapStateToProps)(WeatherList);
