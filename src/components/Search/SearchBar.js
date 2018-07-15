@@ -1,24 +1,14 @@
 import React from 'react';
 import { Input, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
-import { fetchLocation, saveLocation } from '../../redux/actions';
+import { createResultsList, geoLocate } from '../../redux/actions';
 
 const Search = props =>
   (props.loading === false ? (
-    <Input icon placeholder="Search..." onChange={e => props.fetchLocation(e.target.value)}>
+    <Input icon placeholder="Search..." onChange={e => props.createResultsList(e.target.value)}>
       <input />
-      <Icon
-        name="location arrow"
-        color="olive"
-        inverted
-        circular
-        link
-        onClick={() =>
-          props.saveLocation(navigator.geolocation.getCurrentPosition(position => `${position.coords.longitude}, ${position.coords.latitude}`))
-        }
-      />
+      <Icon name="location arrow" color="olive" inverted circular link onClick={props.geoLocate} />
     </Input>
   ) : (
     <Input loading icon="user" placeholder="Search..." />
@@ -27,8 +17,8 @@ const Search = props =>
 const mapStateToProps = state => ({ loading: state.loading });
 
 const mapDispatchToProps = dispatch => ({
-  fetchLocation: term => dispatch(fetchLocation(term)),
-  saveLocation: term => dispatch(saveLocation(term)),
+  createResultsList: term => dispatch(createResultsList(term)),
+  geoLocate: () => dispatch(geoLocate()),
 });
 
 export default connect(
