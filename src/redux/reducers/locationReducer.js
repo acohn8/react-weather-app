@@ -1,5 +1,4 @@
 const initialLocationState = {
-  searchTerm: '',
   locationName: '',
   coords: [],
   results: [],
@@ -10,7 +9,7 @@ const initialLocationState = {
 const locationReducer = (previousState = initialLocationState, action) => {
   switch (action.type) {
     case 'SET_RESULTS':
-      return { ...previousState, results: action.results, loading: false };
+      return { ...previousState, results: action.results };
     case 'SAVE_LOCATION':
       return {
         ...previousState,
@@ -25,7 +24,6 @@ const locationReducer = (previousState = initialLocationState, action) => {
     case 'ERROR':
       return {
         ...previousState,
-        searchTerm: '',
         results: [],
         loading: false,
         error: true,

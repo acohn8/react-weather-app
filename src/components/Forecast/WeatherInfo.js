@@ -22,7 +22,8 @@ class WeatherInfo extends React.Component {
   render() {
     return (
       <div>
-        {this.props.loading === true && <ForecastLoader />}
+        {this.props.coords.length === 0 && null}
+        {this.props.loading === true && this.props.coords.length === 2 && <ForecastLoader />}
         {this.props.loading === false && (
           <div>
             <CityHeader />

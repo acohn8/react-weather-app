@@ -1,6 +1,7 @@
 import React from 'react';
 import { List, Segment, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { fetchLocation } from '../../redux/actions/locationActions';
 import Error from '../Error';
@@ -11,7 +12,11 @@ class SearchContainer extends React.Component {
   state = { searchTerm: '' };
 
   setSearch = e => {
-    this.setState({ searchTerm: e.target.value }, this.props.fetchLocation(this.state.searchTerm));
+    this.setState(
+      { searchTerm: e.target.value },
+      () =>
+        this.state.searchTerm.length > 0 && this.props.fetchLocation(this.state.searchTerm, false),
+    );
   };
 
   render() {
@@ -35,7 +40,6 @@ class SearchContainer extends React.Component {
 
 const mapStateToProps = state => ({
   results: state.location.results,
-  searchTerm: state.location.searchTerm,
   error: state.location.error,
 });
 
