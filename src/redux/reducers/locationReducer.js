@@ -28,6 +28,8 @@ const locationReducer = (previousState = initialLocationState, action) => {
         loading: false,
         error: true,
       };
+    case 'CLEAR':
+      return { ...previousState, results: [] };
     default:
       return previousState;
   }

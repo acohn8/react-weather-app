@@ -1,9 +1,8 @@
 import React from 'react';
 import { List, Segment, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
-import { fetchLocation } from '../../redux/actions/locationActions';
+import { fetchLocation, clearList } from '../../redux/actions/locationActions';
 import Error from '../Error';
 import Search from './SearchBar';
 import SearchResults from './SearchResults';
@@ -15,7 +14,9 @@ class SearchContainer extends React.Component {
     this.setState(
       { searchTerm: e.target.value },
       () =>
-        this.state.searchTerm.length > 0 && this.props.fetchLocation(this.state.searchTerm, false),
+        this.state.searchTerm.length > 0
+          ? this.props.fetchLocation(this.state.searchTerm, false)
+          : this.props.clearList(),
     );
   };
 
@@ -45,6 +46,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchLocation: (location, submit) => dispatch(fetchLocation(location, submit)),
+  clearList: () => dispatch(clearList()),
 });
 
 export default connect(

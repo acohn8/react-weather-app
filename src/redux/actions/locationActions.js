@@ -1,15 +1,12 @@
 import axios from 'axios';
 
-const fetchLocation = (term, submit) => (dispatch) => {
+const fetchLocation = (term, submit) => dispatch =>
   axios
     .get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${term}.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`)
     .then(res =>
       (submit === true
         ? dispatch(saveLocation(res.data))
         : dispatch({ type: 'SET_RESULTS', results: res.data.features.slice(0, 5) })));
-};
-// dispatch({ type: 'SET_RESULTS', results: [], text: '' });
-// };
 
 const geoLocate = () => (dispatch) => {
   dispatch({ type: 'LOADING' });
@@ -30,4 +27,8 @@ const saveLocation = (location) => {
   return { type: 'ERROR' };
 };
 
-export { geoLocate, fetchLocation };
+const clearList = () => (dispatch) => {
+  dispatch({ type: 'CLEAR' });
+};
+
+export { geoLocate, fetchLocation, clearList };

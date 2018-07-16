@@ -13,7 +13,7 @@ const weatherReducer = (previousState = initialWeatherState, action) => {
         forecast: action.forecast,
         loading: false,
       };
-    case 'LOADING':
+    case 'GET_WEATHER':
       return { ...previousState, loading: true };
     default:
       return previousState;
