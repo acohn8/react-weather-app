@@ -1,10 +1,12 @@
 {
   "name": "weather-app",
+  "homepage": "https://acohn8.github.io/react-weather-app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "chart.js": "^2.7.2",
     "chartjs-plugin-datalabels": "^0.3.0",
+    "gh-pages": "^1.2.0",
     "mapbox-geocoding": "^0.1.5",
     "mapbox-gl": "^0.47.0-beta.1",
     "moment": "^2.22.2",
