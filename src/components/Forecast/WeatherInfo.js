@@ -30,7 +30,7 @@ class WeatherInfo extends React.Component {
   getWeather = () => {
     this.setState({ loading: true, error: false }, () => {
       fetch(
-        `https://cryptic-headland-94862.herokuapp.com/https://api.darksky.net/forecast/1114b767335760c2ae618d019fe72dd0/${
+        `https://election-data-2016.herokuapp.com/api/v1/weathers/search/${
           this.props.location.coords[1]
         },${this.props.location.coords[0]}`,
       )
@@ -73,7 +73,9 @@ class WeatherInfo extends React.Component {
               <Header.Subheader>{this.state.forecast.daily.summary}</Header.Subheader>
             </Header>
             <Card.Group stackable itemsPerRow={4}>
-              {this.state.forecast.daily.data.map(day => <ForecastCard key={day.time} day={day} />)}
+              {this.state.forecast.daily.data.map(day => (
+                <ForecastCard key={day.time} day={day} />
+              ))}
             </Card.Group>
           </div>
         )}
