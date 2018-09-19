@@ -6,7 +6,7 @@ const Nav = ({ location }) => (
     <Menu.Item name="sun">
       <Icon name="sun" />
     </Menu.Item>
-    {location === '' ? <Menu.Item name="Find Your Weather" /> : <Menu.Item name={location} />}
+    {location === '' ? <Menu.Item name="My Weathr" /> : <Menu.Item name={location} />}
   </Menu>
 );
 
